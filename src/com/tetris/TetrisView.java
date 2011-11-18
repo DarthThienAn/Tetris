@@ -531,7 +531,14 @@ public class TetrisView extends TileView {
 //	        	mTetrisBlock.refreshBlock();
 //	    	}
 		}
-	}    
+
+    	if ((mTetrisBlock.getBlockType() == IBLOCK) && (oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1 + 2]))
+    	{
+    		mTetrisBlock.y1 -= 1;
+    		mTetrisBlock.refreshBlock();
+    	}
+    
+    }    
     /**
      * Draws some walls.
      * 
