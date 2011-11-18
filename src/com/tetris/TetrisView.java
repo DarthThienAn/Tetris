@@ -3,6 +3,8 @@ package com.tetris;
 //import java.util.ArrayList;
 //import java.util.Random;
 
+import java.util.Random;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -40,11 +42,11 @@ public class TetrisView extends TileView {
     /**
      * Current direction the Tetris is facing.
      */
-    private int mOrientation = FACEDOWN;
-    private static final int FACEUP = 0;
-    private static final int FACERIGHT = 1;
-    private static final int FACEDOWN = 2;
-    private static final int FACELEFT = 3;
+//    private int mOrientation = FACEUP;
+//    private static final int FACEUP = 0;
+//    private static final int FACERIGHT = 1;
+//    private static final int FACEDOWN = 2;
+//    private static final int FACELEFT = 3;
     
     /**
      * Labels for the drawables that will be loaded into the TileView class
@@ -83,14 +85,14 @@ public class TetrisView extends TileView {
     /**
      * mTetrisBlock: a list of Coordinates that make up the Tetris piece
      */
-    private TetrisBlock mTetrisBlock = new TetrisBlock(13, 2, 13, 3, 12, 2, 14, 2);
+    private TetrisBlock mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7));
 
     private boolean[][] oldBlocks = new boolean[mXTileCount][mYTileCount];    
     
     /**
      * Everyone needs a little randomness in their life
      */
-//    private static final Random RNG = new Random();
+    private static final Random RNG = new Random();
 
     /**
      * Create a simple handler that we can use to cause animation to happen.  We
@@ -148,11 +150,11 @@ public class TetrisView extends TileView {
 //        mTetrisBlock.clear();
 //        mTetrisBlock.add(new Coordinate(12, 2));
     	
-        mTetrisBlock = new TetrisBlock(13, 2, 13, 3, 12, 2, 14, 2);
+        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7));
 //        mTetrisBlock = new TetrisBlock(4, 4, 4, 3, 4, 5, 4, 6);
 
 //        mMoveDelay = 50;
-        mOrientation = FACEDOWN;
+//        mOrientation = FACEUP;
         mTimeDelay = 500;
         mScore = 0;
         oldBlocks = new boolean[mXTileCount][mYTileCount];
@@ -164,8 +166,8 @@ public class TetrisView extends TileView {
 
     private void initNewBlock()
     {
-        mOrientation = FACEDOWN;
-        mTetrisBlock = new TetrisBlock(13, 2, 13, 3, 12, 2, 14, 2);
+//        mOrientation = FACEUP;
+        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7));
         mScore += 100;
     }
     
@@ -181,14 +183,14 @@ public class TetrisView extends TileView {
 
         map.putLong("mTimeDelay", Long.valueOf(mTimeDelay));
         map.putLong("mScore", Long.valueOf(mScore));
-        map.putInt("mTetrisBlock1x", Integer.valueOf(mTetrisBlock.firstx));
-        map.putInt("mTetrisBlock1y", Integer.valueOf(mTetrisBlock.firsty));
-        map.putInt("mTetrisBlock2x", Integer.valueOf(mTetrisBlock.secondx));
-        map.putInt("mTetrisBlock2y", Integer.valueOf(mTetrisBlock.secondy));
-        map.putInt("mTetrisBlock3x", Integer.valueOf(mTetrisBlock.thirdx));
-        map.putInt("mTetrisBlock3y", Integer.valueOf(mTetrisBlock.thirdy));
-        map.putInt("mTetrisBlock4x", Integer.valueOf(mTetrisBlock.fourthx));
-        map.putInt("mTetrisBlock4y", Integer.valueOf(mTetrisBlock.fourthy));
+        map.putInt("mTetrisBlock1x", Integer.valueOf(mTetrisBlock.x1));
+        map.putInt("mTetrisBlock1y", Integer.valueOf(mTetrisBlock.y1));
+        map.putInt("mTetrisBlock2x", Integer.valueOf(mTetrisBlock.x2));
+        map.putInt("mTetrisBlock2y", Integer.valueOf(mTetrisBlock.y2));
+        map.putInt("mTetrisBlock3x", Integer.valueOf(mTetrisBlock.x3));
+        map.putInt("mTetrisBlock3y", Integer.valueOf(mTetrisBlock.y3));
+        map.putInt("mTetrisBlock4x", Integer.valueOf(mTetrisBlock.x4));
+        map.putInt("mTetrisBlock4y", Integer.valueOf(mTetrisBlock.y4));
 
         return map;
     }
@@ -248,25 +250,25 @@ public class TetrisView extends TileView {
         } 
         
         if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-            if (!((mTetrisBlock.firsty == mYTileCount - 2) || (mTetrisBlock.secondy == mYTileCount - 2) || (mTetrisBlock.thirdy == mYTileCount - 2) || (mTetrisBlock.fourthy == mYTileCount - 2)))
+            if (!((mTetrisBlock.y1 == mYTileCount - 2) || (mTetrisBlock.y2 == mYTileCount - 2) || (mTetrisBlock.y3 == mYTileCount - 2) || (mTetrisBlock.y4 == mYTileCount - 2)))
             {
-                if (!((oldBlocks[mTetrisBlock.firstx][mTetrisBlock.firsty + 1]) || (oldBlocks[mTetrisBlock.secondx][mTetrisBlock.secondy + 1]) || (oldBlocks[mTetrisBlock.thirdx][mTetrisBlock.thirdy + 1]) || (oldBlocks[mTetrisBlock.fourthx][mTetrisBlock.fourthy + 1])))
+                if (!((oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1 + 1]) || (oldBlocks[mTetrisBlock.x2][mTetrisBlock.y2 + 1]) || (oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1]) || (oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1])))
                 	mTetrisBlock.moveBlock(SOUTH);
             }
             return (true);
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            if (!((mTetrisBlock.firstx < 2) || (mTetrisBlock.secondx < 2) || (mTetrisBlock.thirdx < 2) || (mTetrisBlock.fourthx < 2)))
+            if (!((mTetrisBlock.x1 < 2) || (mTetrisBlock.x2 < 2) || (mTetrisBlock.x3 < 2) || (mTetrisBlock.x4 < 2)))
             {
-                if (!((oldBlocks[mTetrisBlock.firstx - 1][mTetrisBlock.firsty]) || (oldBlocks[mTetrisBlock.secondx - 1][mTetrisBlock.secondy]) || (oldBlocks[mTetrisBlock.thirdx - 1][mTetrisBlock.thirdy]) || (oldBlocks[mTetrisBlock.fourthx - 1][mTetrisBlock.fourthy])))
+                if (!((oldBlocks[mTetrisBlock.x1 - 1][mTetrisBlock.y1]) || (oldBlocks[mTetrisBlock.x2 - 1][mTetrisBlock.y2]) || (oldBlocks[mTetrisBlock.x3 - 1][mTetrisBlock.y3]) || (oldBlocks[mTetrisBlock.x4 - 1][mTetrisBlock.y4])))
                 	mTetrisBlock.moveBlock(WEST);
             }
             return (true);
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            if (!((mTetrisBlock.firstx == (mXTileCount - 2)) || (mTetrisBlock.secondx == (mXTileCount - 2)) || (mTetrisBlock.thirdx == (mXTileCount - 2)) || (mTetrisBlock.fourthx == (mXTileCount - 2))))
+            if (!((mTetrisBlock.x1 == (mXTileCount - 2)) || (mTetrisBlock.x2 == (mXTileCount - 2)) || (mTetrisBlock.x3 == (mXTileCount - 2)) || (mTetrisBlock.x4 == (mXTileCount - 2))))
             {
-                if (!((oldBlocks[mTetrisBlock.firstx + 1][mTetrisBlock.firsty]) || (oldBlocks[mTetrisBlock.secondx + 1][mTetrisBlock.secondy]) || (oldBlocks[mTetrisBlock.thirdx + 1][mTetrisBlock.thirdy]) || (oldBlocks[mTetrisBlock.fourthx + 1][mTetrisBlock.fourthy])))
+                if (!((oldBlocks[mTetrisBlock.x1 + 1][mTetrisBlock.y1]) || (oldBlocks[mTetrisBlock.x2 + 1][mTetrisBlock.y2]) || (oldBlocks[mTetrisBlock.x3 + 1][mTetrisBlock.y3]) || (oldBlocks[mTetrisBlock.x4 + 1][mTetrisBlock.y4])))
                 	mTetrisBlock.moveBlock(EAST);
             }
             return (true);
@@ -333,7 +335,7 @@ public class TetrisView extends TileView {
         if (mMode == RUNNING) {
             long now = System.currentTimeMillis();
 
-//            Log.v(TAG, "1x: " + mTetrisBlock.firstx + " 1y: " + mTetrisBlock.firsty + " 2x: " + mTetrisBlock.secondx + " 2y: " + mTetrisBlock.secondy + " 3x: " + mTetrisBlock.thirdx + " 3y: " + mTetrisBlock.thirdy + " 4x: " + mTetrisBlock.fourthx + " 4y: " + mTetrisBlock.fourthy);
+//            Log.v(TAG, "1x: " + mTetrisBlock.x1 + " 1y: " + mTetrisBlock.y1 + " 2x: " + mTetrisBlock.x2 + " 2y: " + mTetrisBlock.y2 + " 3x: " + mTetrisBlock.x3 + " 3y: " + mTetrisBlock.y3 + " 4x: " + mTetrisBlock.x4 + " 4y: " + mTetrisBlock.y4);
 //            Log.v(TAG, "mXTileCount: " + mXTileCount);
 
             if (now - mLastMove > mMoveDelay)
@@ -352,10 +354,10 @@ public class TetrisView extends TileView {
     
     private void saveBlocks()
     {
-    	oldBlocks[mTetrisBlock.firstx][mTetrisBlock.firsty] = true;
-    	oldBlocks[mTetrisBlock.secondx][mTetrisBlock.secondy] = true;
-    	oldBlocks[mTetrisBlock.thirdx][mTetrisBlock.thirdy] = true;
-    	oldBlocks[mTetrisBlock.fourthx][mTetrisBlock.fourthy] = true;
+    	oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1] = true;
+    	oldBlocks[mTetrisBlock.x2][mTetrisBlock.y2] = true;
+    	oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3] = true;
+    	oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4] = true;
     	
 /*        switch (mOrientation) {
 	        case FACEUP: {
@@ -413,7 +415,7 @@ public class TetrisView extends TileView {
             if (now - mLastTimedMove > mTimeDelay)
             {
 //                mTetrisBlock.y = mTetrisBlock.y + 1;
-                if (!((mTetrisBlock.firsty == mYTileCount - 2) || (mTetrisBlock.secondy == mYTileCount - 2) || (mTetrisBlock.thirdy == mYTileCount - 2) || (mTetrisBlock.fourthy == mYTileCount - 2)))
+                if (!((mTetrisBlock.y1 == mYTileCount - 2) || (mTetrisBlock.y2 == mYTileCount - 2) || (mTetrisBlock.y3 == mYTileCount - 2) || (mTetrisBlock.y4 == mYTileCount - 2)))
                 {
                     if(!checkCollision())
                     	mTetrisBlock.fall();
@@ -471,15 +473,15 @@ public class TetrisView extends TileView {
     {
 
     	//if it hits the bottom
-    	if (mTetrisBlock.firsty > (mYTileCount - 3) || mTetrisBlock.secondy > (mYTileCount - 3) || mTetrisBlock.thirdy > (mYTileCount - 3) || mTetrisBlock.fourthy > (mYTileCount - 3))
+    	if (mTetrisBlock.y1 > (mYTileCount - 3) || mTetrisBlock.y2 > (mYTileCount - 3) || mTetrisBlock.y3 > (mYTileCount - 3) || mTetrisBlock.y4 > (mYTileCount - 3))
         {
         	saveBlocks();
         	initNewBlock();
             clearRow();
     		return true;
         }
-    	
-        if (oldBlocks[mTetrisBlock.firstx][mTetrisBlock.firsty + 1] || oldBlocks[mTetrisBlock.secondx][mTetrisBlock.secondy + 1] || oldBlocks[mTetrisBlock.thirdx][mTetrisBlock.thirdy + 1] || oldBlocks[mTetrisBlock.fourthx][mTetrisBlock.fourthy + 1])
+//    	Log.v(TAG, mTetrisBlock.y1 + " " + mTetrisBlock.y2 + " " + mTetrisBlock.y3 + " " + mTetrisBlock.y4 + " ;");
+        if (oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1 + 1] || oldBlocks[mTetrisBlock.x2][mTetrisBlock.y2 + 1] || oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1] || oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1])
         {
         	saveBlocks();
         	initNewBlock();
@@ -507,7 +509,7 @@ public class TetrisView extends TileView {
     	
     	for (int z = mYTileCount - 2; z > 1; z--)
     	{
-    		Log.v(TAG, "z: " + z);
+//    		Log.v(TAG, "z: " + z);
 	        for (int x = 1; x < mXTileCount - 1; x++)
 	        {
 	        	if (!oldBlocks[x][z])
@@ -542,19 +544,19 @@ public class TetrisView extends TileView {
     
     private void rotateClockwise()
     {
-        if (((mTetrisBlock.firstx < 2) || (mTetrisBlock.secondx < 2) || (mTetrisBlock.thirdx < 2) || (mTetrisBlock.fourthx < 2)))
+        if (((mTetrisBlock.x1 < 2) || (mTetrisBlock.x2 < 2) || (mTetrisBlock.x3 < 2) || (mTetrisBlock.x4 < 2)))
     	{
 //        	mTetrisBlock.moveBlock(EAST);
-        	mTetrisBlock.firstx = 2;
+        	mTetrisBlock.x1 = 2;
     	}
-        if (((mTetrisBlock.firstx == (mXTileCount - 2)) || (mTetrisBlock.secondx == (mXTileCount - 2)) || (mTetrisBlock.thirdx == (mXTileCount - 2)) || (mTetrisBlock.fourthx == (mXTileCount - 2))))
+        if (((mTetrisBlock.x1 == (mXTileCount - 2)) || (mTetrisBlock.x2 == (mXTileCount - 2)) || (mTetrisBlock.x3 == (mXTileCount - 2)) || (mTetrisBlock.x4 == (mXTileCount - 2))))
     	{
 //        	mTetrisBlock.moveBlock(WEST);
-        	mTetrisBlock.firstx = mXTileCount - 3;
+        	mTetrisBlock.x1 = mXTileCount - 3;
     	}
 
-        mTetrisBlock.rotateClockwise(mOrientation);
-        mOrientation = (mOrientation + 1) % 4;
+//        mOrientation = (mOrientation + 1) % 4;
+        mTetrisBlock.rotateClockwise();
 	}    
     /**
      * Draws some walls.
@@ -582,10 +584,10 @@ public class TetrisView extends TileView {
 
     private void drawBlock()
     {
-    	setTile(UNIT, mTetrisBlock.firstx, mTetrisBlock.firsty);
-    	setTile(UNIT, mTetrisBlock.secondx, mTetrisBlock.secondy);
-    	setTile(UNIT, mTetrisBlock.thirdx, mTetrisBlock.thirdy);
-    	setTile(UNIT, mTetrisBlock.fourthx, mTetrisBlock.fourthy);
+    	setTile(UNIT, mTetrisBlock.x1, mTetrisBlock.y1);
+    	setTile(UNIT, mTetrisBlock.x2, mTetrisBlock.y2);
+    	setTile(UNIT, mTetrisBlock.x3, mTetrisBlock.y3);
+    	setTile(UNIT, mTetrisBlock.x4, mTetrisBlock.y4);
         
 /*        switch (mOrientation) {
 	        case FACEUP: {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tetris" android:installLocation="auto">
-<uses-sdk android:targetSdkVersion="9" android:minSdkVersion="9"/>
+<uses-sdk android:targetSdkVersion="10" android:minSdkVersion="10"/>
     <application android:label="Tetris on a Phone">
       <activity android:name="Tetris"
         android:screenOrientation="portrait"
