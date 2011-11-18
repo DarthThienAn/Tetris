@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -137,6 +138,10 @@ public class TileView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+//        Rect r = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
+//        Paint blackPaint = new Paint();
+//        blackPaint.setColor(0xffffffff);
+//        canvas.drawRect(r, blackPaint);
         for (int x = 0; x < mXTileCount; x += 1) {
             for (int y = 0; y < mYTileCount; y += 1) {
                 if (mTileGrid[x][y] > 0) {

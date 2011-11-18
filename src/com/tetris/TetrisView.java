@@ -40,13 +40,13 @@ public class TetrisView extends TileView {
     private static final int WEST = 4;
 
     //types
-    private static final int IBLOCK = 0;
-    private static final int JBLOCK = 1;
-    private static final int LBLOCK = 2;
-    private static final int OBLOCK = 3;
-    private static final int SBLOCK = 4;
-    private static final int TBLOCK = 5;
-    private static final int ZBLOCK = 6;
+    private static final int IBLOCK = 1;
+    private static final int JBLOCK = 2;
+    private static final int LBLOCK = 3;
+    private static final int OBLOCK = 4;
+    private static final int SBLOCK = 5;
+    private static final int TBLOCK = 6;
+    private static final int ZBLOCK = 7;
     
     /**
      * Current direction the Tetris is facing.
@@ -60,9 +60,14 @@ public class TetrisView extends TileView {
     /**
      * Labels for the drawables that will be loaded into the TileView class
      */
-//    private static final int BLOCK = 1;
-    private static final int WALL = 2;
-    private static final int UNIT = 3;
+    private static final int BLUEUNIT = 1;
+    private static final int BROWNUNIT = 2;
+    private static final int CYANUNIT = 3;
+    private static final int GREENUNIT = 4;
+    private static final int ORANGEUNIT = 5;
+    private static final int PURPLEUNIT = 6;
+    private static final int REDUNIT = 7;
+    private static final int WALL = 8;
 
     /**
      * mScore: used to keep score 
@@ -94,9 +99,11 @@ public class TetrisView extends TileView {
     /**
      * mTetrisBlock: a list of Coordinates that make up the Tetris piece
      */
-    private TetrisBlock mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7));
+    private TetrisBlock mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 1 + RNG.nextInt(7), FACEUP);
 
     private boolean[][] oldBlocks = new boolean[mXTileCount][mYTileCount];    
+    //inefficient
+    private int[][] savedColors = new int[mXTileCount][mYTileCount];    
     
     /**
      * Everyone needs a little randomness in their life
@@ -147,11 +154,15 @@ public class TetrisView extends TileView {
 
         Resources r = this.getContext().getResources();
         
-        resetTiles(4);
-//        loadTile(BLOCK, r.getDrawable(R.drawable.tetrisblock));
+        resetTiles(9);
+        loadTile(BLUEUNIT, r.getDrawable(R.drawable.blueunit));
+        loadTile(BROWNUNIT, r.getDrawable(R.drawable.brownunit));
+        loadTile(CYANUNIT, r.getDrawable(R.drawable.cyanunit));
+        loadTile(GREENUNIT, r.getDrawable(R.drawable.greenunit));
+        loadTile(ORANGEUNIT, r.getDrawable(R.drawable.orangeunit));
+        loadTile(PURPLEUNIT, r.getDrawable(R.drawable.purpleunit));
+        loadTile(REDUNIT, r.getDrawable(R.drawable.redunit));
         loadTile(WALL, r.getDrawable(R.drawable.wall));
-        loadTile(UNIT, r.getDrawable(R.drawable.redunit));
-    	
     }
     
 
@@ -159,7 +170,7 @@ public class TetrisView extends TileView {
 //        mTetrisBlock.clear();
 //        mTetrisBlock.add(new Coordinate(12, 2));
     	
-        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7), FACEUP);
+        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 1 + RNG.nextInt(7), FACEUP);
 //        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 0, 0);
 //        mTetrisBlock = new TetrisBlock(4, 4, 4, 3, 4, 5, 4, 6);
 
@@ -168,7 +179,7 @@ public class TetrisView extends TileView {
         mTimeDelay = 500;
         mScore = 0;
         oldBlocks = new boolean[mXTileCount][mYTileCount];
-        
+        savedColors = new int[mXTileCount][mYTileCount];
 //        mXTileCount = 10;
 //		mXTileCount = 10;
         
@@ -177,7 +188,7 @@ public class TetrisView extends TileView {
     private void initNewBlock()
     {
 //        mOrientation = FACEUP;
-        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7), FACEUP);
+        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 1 + RNG.nextInt(7), FACEUP);
 //        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 0, 0);
         mScore += 100;
     }
@@ -282,7 +293,7 @@ public class TetrisView extends TileView {
             }
             return (true);
         }
-        if (keyCode == KeyEvent.KEYCODE_SPACE) {
+        if (keyCode == KeyEvent.KEYCODE_SPACE || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
         	while (!checkCollision())
         		mTetrisBlock.moveBlock(SOUTH);
             return (true);
@@ -350,10 +361,10 @@ public class TetrisView extends TileView {
             if (now - mLastMove > mMoveDelay)
             {
             	clearTiles();
-                updateWalls();
                 updateFalling();
                 checkCollision();
                 clearRow();                
+                updateWalls();
                 drawBlock();
                 mLastMove = now;
             }
@@ -368,7 +379,10 @@ public class TetrisView extends TileView {
     	oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3] = true;
     	oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4] = true;
     	
-
+    	savedColors[mTetrisBlock.x1][mTetrisBlock.y1] = mTetrisBlock.getBlockType();
+    	savedColors[mTetrisBlock.x2][mTetrisBlock.y2] = mTetrisBlock.getBlockType();
+    	savedColors[mTetrisBlock.x3][mTetrisBlock.y3] = mTetrisBlock.getBlockType();
+    	savedColors[mTetrisBlock.x4][mTetrisBlock.y4] = mTetrisBlock.getBlockType();
     }
     
     public void updateFalling() {
@@ -440,6 +454,7 @@ public class TetrisView extends TileView {
     {
     	boolean full = true;
     	boolean[][] temp = new boolean[mXTileCount][mYTileCount];
+    	int[][] tempColors = new int[mXTileCount][mYTileCount];
     	
     	for (int z = mYTileCount - 2; z > 1; z--)
     	{
@@ -460,16 +475,24 @@ public class TetrisView extends TileView {
 	            for (int x = 0; x < mXTileCount; x++)
 	            {
 	            	oldBlocks[x][z] = false;
+	            	savedColors[x][z] = 0;
 	            }
 	            
 	            for (int x = 1; x < mXTileCount - 1; x++)
 	            {
 	                for (int y = z; y > 1; y--)
+	                {
 	                	temp[x][y] = oldBlocks[x][y - 1];
+	                	tempColors[x][y] = savedColors[x][y - 1];
+	                }
 	                for (int y = z + 1; y < mYTileCount; y++)
+	                {
 	                	temp[x][y] = oldBlocks[x][y];
+	                	tempColors[x][y] = savedColors[x][y];
+	                }
 	            }
 	            oldBlocks = temp;
+	            savedColors = tempColors;
 	        }
 	        
     		full = true;
@@ -566,41 +589,13 @@ public class TetrisView extends TileView {
 
     private void drawBlock()
     {
-    	setTile(UNIT, mTetrisBlock.x1, mTetrisBlock.y1);
-    	setTile(UNIT, mTetrisBlock.x2, mTetrisBlock.y2);
-    	setTile(UNIT, mTetrisBlock.x3, mTetrisBlock.y3);
-    	setTile(UNIT, mTetrisBlock.x4, mTetrisBlock.y4);
+    	int unit = mTetrisBlock.getBlockType();
+    	
+    	setTile(unit, mTetrisBlock.x1, mTetrisBlock.y1);
+    	setTile(unit, mTetrisBlock.x2, mTetrisBlock.y2);
+    	setTile(unit, mTetrisBlock.x3, mTetrisBlock.y3);
+    	setTile(unit, mTetrisBlock.x4, mTetrisBlock.y4);
         
-/*        switch (mOrientation) {
-	        case FACEUP: {
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x - 1, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x + 1, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y - 1);
-		        break;
-	        }
-	        case FACERIGHT: {
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x + 1, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y + 1);
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y - 1);
-		        break;
-	        }
-	        case FACEDOWN: {
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x - 1, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x + 1, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y + 1);
-		        break;
-	        }
-	        case FACELEFT: {
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x - 1, mTetrisBlock.y);
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y + 1);
-		        setTile(UNIT, mTetrisBlock.x, mTetrisBlock.y - 1);
-		        break;
-	        }
-	    }*/
 
         for (int x = 0; x < mXTileCount; x++)
         {
@@ -608,7 +603,7 @@ public class TetrisView extends TileView {
             {
 	            if (oldBlocks[x][y]) 
 	            {
-	                setTile(UNIT, x, y);
+	                setTile(savedColors[x][y], x, y);
 	            }
             }
         }

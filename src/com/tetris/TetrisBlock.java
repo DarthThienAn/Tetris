@@ -7,13 +7,13 @@ public class TetrisBlock
     private static final String TAG = "TetrisView";
 	
 	private int blockType;
-    private static final int IBLOCK = 0;
-    private static final int JBLOCK = 1;
-    private static final int LBLOCK = 2;
-    private static final int OBLOCK = 3;
-    private static final int SBLOCK = 4;
-    private static final int TBLOCK = 5;
-    private static final int ZBLOCK = 6;
+    private static final int IBLOCK = 1;
+    private static final int JBLOCK = 2;
+    private static final int LBLOCK = 3;
+    private static final int OBLOCK = 4;
+    private static final int SBLOCK = 5;
+    private static final int TBLOCK = 6;
+    private static final int ZBLOCK = 7;
 	
     private int mOrientation = FACEUP;
     private static final int FACEUP = 0;
@@ -528,7 +528,7 @@ public class TetrisBlock
     
     public void refreshBlock()
     {
-    	Log.v(TAG, " " + blockType);
+//    	Log.v(TAG, " " + blockType);
     	
     	switch(mOrientation)
 		{
