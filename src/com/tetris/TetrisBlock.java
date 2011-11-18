@@ -12,8 +12,8 @@ public class TetrisBlock
     private static final int LBLOCK = 2;
     private static final int OBLOCK = 3;
     private static final int SBLOCK = 4;
-    private static final int ZBLOCK = 5;
-    private static final int TBLOCK = 6;
+    private static final int TBLOCK = 5;
+    private static final int ZBLOCK = 6;
 	
     private int mOrientation = FACEUP;
     private static final int FACEUP = 0;
@@ -37,24 +37,24 @@ public class TetrisBlock
 	public int y3;
 	public int y4;
 	
-	public TetrisBlock(int newx1, int newy1, int newx2, int newy2, int newx3, int newy3, int newx4, int newy4) 
-	{
-/*    		first = new Coordinate(newx1, newy1);
-		second = new Coordinate(newx2, newy2);
-		third = new Coordinate(newx3, newy3);
-		fourth = new Coordinate(newx4, newy4);*/
-		x1 = newx1;
-		y1 = newy1;
-		x2 = newx2;
-		y2 = newy2;
-		x3 = newx3;
-		y3 = newy3;
-		x4 = newx4;
-		y4 = newy4;
-		
-		mOrientation = FACEDOWN;
-		refreshBlock();
-	}
+//	public TetrisBlock(int newx1, int newy1, int newx2, int newy2, int newx3, int newy3, int newx4, int newy4) 
+//	{
+///*    		first = new Coordinate(newx1, newy1);
+//		second = new Coordinate(newx2, newy2);
+//		third = new Coordinate(newx3, newy3);
+//		fourth = new Coordinate(newx4, newy4);*/
+//		x1 = newx1;
+//		y1 = newy1;
+//		x2 = newx2;
+//		y2 = newy2;
+//		x3 = newx3;
+//		y3 = newy3;
+//		x4 = newx4;
+//		y4 = newy4;
+//		
+//		mOrientation = FACEDOWN;
+//		refreshBlock();
+//	}
 	
 	public TetrisBlock(int newx1, int newy1, int newBlockType)
 	{
@@ -63,6 +63,25 @@ public class TetrisBlock
 		blockType = newBlockType;
 		mOrientation = FACEDOWN;
 		refreshBlock();
+	}
+	
+	public TetrisBlock(int newx1, int newy1, int newBlockType, int newOrientation)
+	{
+		x1 = newx1;
+		y1 = newy1;
+		blockType = newBlockType;
+		mOrientation = newOrientation;
+		refreshBlock();
+	}
+	
+	public int getOrientation()
+	{
+		return mOrientation;
+	}
+
+	public int getBlockType()
+	{
+		return blockType;
 	}
 	
 //	public void refreshBlock()
@@ -220,7 +239,7 @@ public class TetrisBlock
 				x4 = x1 + 1;
 				y2 = y1;
 				y3 = y1;
-				y4 = y1 - 1;
+				y4 = y1 + 1;
 				break;
 			}
 			case LBLOCK:
@@ -230,7 +249,7 @@ public class TetrisBlock
 				x4 = x1 - 1;
 				y2 = y1;
 				y3 = y1;
-				y4 = y1 - 1;
+				y4 = y1 + 1;
 				break;
 			}
 			case OBLOCK:
@@ -294,7 +313,7 @@ public class TetrisBlock
 			{
 				x2 = x1;
 				x3 = x1;
-				x4 = x1 + 1;
+				x4 = x1 - 1;
 				y2 = y1 - 1;
 				y3 = y1 + 1;
 				y4 = y1 + 1;
@@ -304,7 +323,7 @@ public class TetrisBlock
 			{
 				x2 = x1;
 				x3 = x1;
-				x4 = x1 + 1;
+				x4 = x1 - 1;
 				y2 = y1 + 1;
 				y3 = y1 - 1;
 				y4 = y1 - 1;
@@ -374,7 +393,7 @@ public class TetrisBlock
 				x4 = x1 - 1;
 				y2 = y1;
 				y3 = y1;
-				y4 = y1 + 1;
+				y4 = y1 - 1;
 				break;
 			}
 			case LBLOCK:
@@ -384,7 +403,7 @@ public class TetrisBlock
 				x4 = x1 + 1;
 				y2 = y1;
 				y3 = y1;
-				y4 = y1 + 1;
+				y4 = y1 - 1;
 				break;
 			}
 			case OBLOCK:
@@ -458,7 +477,7 @@ public class TetrisBlock
 			{
 				x2 = x1;
 				x3 = x1;
-				x4 = x1 - 1;
+				x4 = x1 + 1;
 				y2 = y1 - 1;
 				y3 = y1 + 1;
 				y4 = y1 + 1;
@@ -590,6 +609,16 @@ public class TetrisBlock
     public void rotateClockwise()
     {
     	mOrientation = (mOrientation + 1) % 4;
+    	
+    	if(blockType == IBLOCK) 
+    	{
+    		if (mOrientation == FACEDOWN)
+    			x1 -= 1;
+    		if (mOrientation == FACEUP)
+    			x1 += 1;
+    	}
+    	
+    	refreshBlock();
     }
     
     /**
