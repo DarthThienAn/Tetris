@@ -160,7 +160,7 @@ public class TetrisView extends TileView {
 //        mTetrisBlock.add(new Coordinate(12, 2));
     	
         mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7), FACEUP);
-        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 0, 0);
+//        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 0, 0);
 //        mTetrisBlock = new TetrisBlock(4, 4, 4, 3, 4, 5, 4, 6);
 
 //        mMoveDelay = 50;
@@ -177,8 +177,8 @@ public class TetrisView extends TileView {
     private void initNewBlock()
     {
 //        mOrientation = FACEUP;
-//        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7), FACEUP);
-        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 0, 0);
+        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, RNG.nextInt(7), FACEUP);
+//        mTetrisBlock = new TetrisBlock(mXTileCount/2, 2, 0, 0);
         mScore += 100;
     }
     
