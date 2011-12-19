@@ -10,9 +10,11 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -76,7 +78,7 @@ public class TetrisView extends TileView {
      */
     private long mScore = 0;
     private static final long mMoveDelay = 50;
-    private long mTimeDelay = 2000;
+    private long mTimeDelay = 1000;
     
     /**
      * mLastMove: tracks the absolute time when the Tetris last moved, and is used
@@ -109,7 +111,7 @@ public class TetrisView extends TileView {
      * Everyone needs a little randomness in their life
      */
     private static final Random RNG = new Random();
-
+    
     /**
      * Create a simple handler that we can use to cause animation to happen.  We
      * set ourselves as a target and we can use the sleep()
@@ -176,7 +178,7 @@ public class TetrisView extends TileView {
 
 //        mMoveDelay = 50;
 //        mOrientation = FACEUP;
-        mTimeDelay = 500;
+//        mTimeDelay = 5000;
         mScore = 0;
         oldBlocks = new boolean[mXTileCount][mYTileCount];
         savedColors = new int[mXTileCount][mYTileCount];
@@ -302,6 +304,63 @@ public class TetrisView extends TileView {
         return super.onKeyDown(keyCode, msg);
     }
 
+/*    @Override
+    public boolean onTouchEvent(MotionEvent touchEvent) {
+
+    	
+        if (touchEvent == MotionEvent.ACTION_UP) {
+            if (mMode == READY | mMode == LOSE) {
+                initNewGame();
+                setMode(RUNNING);
+                update();
+                return (true);
+            } 
+            if (mMode == PAUSE) {
+                setMode(RUNNING);
+                update();
+                return (true);
+            } 
+
+            if (mMode == RUNNING) {
+            	rotateClockwise();
+                update(); //slightly inefficient, runs updateFalling when unnecessary
+            return (true);
+            }
+        } 
+        
+        if (touchEvent == MotionEvent.ACTION_DOWN) {
+            if (!((mTetrisBlock.y1 == mYTileCount - 2) || (mTetrisBlock.y2 == mYTileCount - 2) || (mTetrisBlock.y3 == mYTileCount - 2) || (mTetrisBlock.y4 == mYTileCount - 2)))
+            {
+                if (!((oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1 + 1]) || (oldBlocks[mTetrisBlock.x2][mTetrisBlock.y2 + 1]) || (oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1]) || (oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1])))
+                	mTetrisBlock.moveBlock(SOUTH);
+            }
+            return (true);
+        }
+        if (touchEvent == MotionEvent.ACTION_LEFT) {
+            if (!((mTetrisBlock.x1 < 2) || (mTetrisBlock.x2 < 2) || (mTetrisBlock.x3 < 2) || (mTetrisBlock.x4 < 2)))
+            {
+                if (!((oldBlocks[mTetrisBlock.x1 - 1][mTetrisBlock.y1]) || (oldBlocks[mTetrisBlock.x2 - 1][mTetrisBlock.y2]) || (oldBlocks[mTetrisBlock.x3 - 1][mTetrisBlock.y3]) || (oldBlocks[mTetrisBlock.x4 - 1][mTetrisBlock.y4])))
+                	mTetrisBlock.moveBlock(WEST);
+            }
+            return (true);
+        }
+        if (touchEvent == MotionEvent.ACTION_RIGHT) {
+            if (!((mTetrisBlock.x1 == (mXTileCount - 2)) || (mTetrisBlock.x2 == (mXTileCount - 2)) || (mTetrisBlock.x3 == (mXTileCount - 2)) || (mTetrisBlock.x4 == (mXTileCount - 2))))
+            {
+                if (!((oldBlocks[mTetrisBlock.x1 + 1][mTetrisBlock.y1]) || (oldBlocks[mTetrisBlock.x2 + 1][mTetrisBlock.y2]) || (oldBlocks[mTetrisBlock.x3 + 1][mTetrisBlock.y3]) || (oldBlocks[mTetrisBlock.x4 + 1][mTetrisBlock.y4])))
+                	mTetrisBlock.moveBlock(EAST);
+            }
+            return (true);
+        }
+        if (performLongClick() || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+        	while (!checkCollision())
+        		mTetrisBlock.moveBlock(SOUTH);
+            return (true);
+        }
+        
+        return super.onTouchEvent(touchEvent);
+    }*/
+    
     /**
      * Sets the TextView that will be used to give information (such as "Game
      * Over" to the user.
@@ -362,7 +421,7 @@ public class TetrisView extends TileView {
             {
             	clearTiles();
                 updateFalling();
-                checkCollision();
+//                checkCollision();
                 clearRow();                
                 updateWalls();
                 drawBlock();
@@ -395,11 +454,13 @@ public class TetrisView extends TileView {
                 if (!((mTetrisBlock.y1 == mYTileCount - 2) || (mTetrisBlock.y2 == mYTileCount - 2) || (mTetrisBlock.y3 == mYTileCount - 2) || (mTetrisBlock.y4 == mYTileCount - 2)))
                 {
                     if(!checkCollision())
+                    {
                     	mTetrisBlock.fall();
+//                    	checkCollision();
+                    }
                 }
                 mLastTimedMove = now;
             }
-            checkCollision();
         }
     }
 
@@ -430,6 +491,8 @@ public class TetrisView extends TileView {
     	//if it hits the bottom
     	if (mTetrisBlock.y1 > (mYTileCount - 3) || mTetrisBlock.y2 > (mYTileCount - 3) || mTetrisBlock.y3 > (mYTileCount - 3) || mTetrisBlock.y4 > (mYTileCount - 3))
         {
+//    		mRedrawHandler.sleep(1000);
+//    		SystemClock.sleep(1000);
         	saveBlocks();
         	initNewBlock();
             clearRow();
@@ -438,10 +501,16 @@ public class TetrisView extends TileView {
 //    	Log.v(TAG, mTetrisBlock.y1 + " " + mTetrisBlock.y2 + " " + mTetrisBlock.y3 + " " + mTetrisBlock.y4 + " ;");
         if (oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1 + 1] || oldBlocks[mTetrisBlock.x2][mTetrisBlock.y2 + 1] || oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1] || oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1])
         {
-        	saveBlocks();
-        	initNewBlock();
-            clearRow();                
-    		return true;
+//    		mRedrawHandler.sleep(1000);
+//    		SystemClock.sleep(1000);
+//            if (oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1 + 1] || oldBlocks[mTetrisBlock.x2][mTetrisBlock.y2 + 1] || oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1] || oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1])
+//            {
+	        	saveBlocks();
+	        	initNewBlock();
+	            clearRow();                
+	    		return true;
+//            }
+//            return true;
         }
     	
         return false;

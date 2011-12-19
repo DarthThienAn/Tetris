@@ -17,7 +17,7 @@
 		
 		<TextView
 		 android:id="@+id/text"
-			android:text="@string/tetris_layout_text_text"
+			android:text="@string/tetris_layout_text"
 			android:visibility="visible"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

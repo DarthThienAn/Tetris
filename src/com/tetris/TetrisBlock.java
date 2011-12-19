@@ -36,6 +36,10 @@ public class TetrisBlock
 	public int y2;
 	public int y3;
 	public int y4;
+//	public Coordinate coord1;
+//	public Coordinate coord2;
+//	public Coordinate coord3;
+//	public Coordinate coord4;
 	
 //	public TetrisBlock(int newx1, int newy1, int newx2, int newy2, int newx3, int newy3, int newx4, int newy4) 
 //	{
@@ -60,6 +64,7 @@ public class TetrisBlock
 	{
 		x1 = newx1;
 		y1 = newy1;
+//		coord1 = new Coordinate (newx1, newy1);
 		blockType = newBlockType;
 		mOrientation = FACEDOWN;
 		refreshBlock();
@@ -69,6 +74,7 @@ public class TetrisBlock
 	{
 		x1 = newx1;
 		y1 = newy1;
+//		coord1 = new Coordinate (newx1, newy1);
 		blockType = newBlockType;
 		mOrientation = newOrientation;
 		refreshBlock();
@@ -173,6 +179,7 @@ public class TetrisBlock
 //		y3 += 1;
 //		y4 += 1;
 		y1 += 1;
+//		coord1.y += 1;
 		refreshBlock();
 	}
 	
@@ -189,6 +196,10 @@ public class TetrisBlock
 	    		x2 += 1;
 	    		x3 += 1;
 	    		x4 += 1;
+//	    		coord1.x += 1;
+//	    		coord2.x += 1;
+//	    		coord3.x += 1;
+//	    		coord4.x += 1;
 	    		//can also use refreshBlock() method
 	            break;
 	        }
@@ -201,6 +212,10 @@ public class TetrisBlock
 	    		x2 -= 1;
 	    		x3 -= 1;
 	    		x4 -= 1;
+//	    		coord1.x -= 1;
+//	    		coord2.x -= 1;
+//	    		coord3.x -= 1;
+//	    		coord4.x -= 1;
 	            break;
 	        }
 	        case SOUTH: {
@@ -212,6 +227,10 @@ public class TetrisBlock
 	    		y2 += 1;
 	    		y3 += 1;
 	    		y4 += 1;
+//	    		coord1.y += 1;
+//	    		coord2.y += 1;
+//	    		coord3.y += 1;
+//	    		coord4.y += 1;
 	            break;
 	        }
         }
@@ -230,6 +249,12 @@ public class TetrisBlock
 				y2 = y1;
 				y3 = y1;
 				y4 = y1;
+//	    		coord2.x = coord1.x + 1;
+//	    		coord3.x = coord1.x - 1;
+//	    		coord4.x = coord1.x - 2;
+//	    		coord2.y = coord1.x;
+//	    		coord3.y = coord1.x;
+//	    		coord4.y = coord1.x;
 				break;
 			}
 			case JBLOCK:
@@ -627,26 +652,26 @@ public class TetrisBlock
      * easy to build.
      * 
      */
-/*        private class Coordinate {
+    private class Coordinate {
         public int x;
         public int y;
 
         public Coordinate(int newX, int newY) {
             x = newX;
             y = newY;
-        }*/
+        }
 
-/*        public boolean equals(Coordinate other) {
+        public boolean equals(Coordinate other) {
             if (x == other.x && y == other.y) {
                 return true;
             }
             return false;
-        }*/
+        }
 
-/*            @Override
+            @Override
         public String toString() {
             return "Coordinate: [" + x + "," + y + "]";
         }
-    }*/
+    }
     
 }
