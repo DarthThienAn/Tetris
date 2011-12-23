@@ -173,13 +173,8 @@ public class TetrisBlock
 		second.y = second.y + 1;
 		third.y = third.y + 1;
 		fourth.y = fourth.y + 1;*/
-		
-//		y1 += 1;
-//		y2 += 1;
-//		y3 += 1;
-//		y4 += 1;
+
 		y1 += 1;
-//		coord1.y += 1;
 		refreshBlock();
 	}
 	
@@ -187,7 +182,7 @@ public class TetrisBlock
     {
         switch (mInputDirection)
         {
-	        case EAST: {
+        	case EAST: {
 /*    	    		first.x += 1;
 	    		second.x += 1;
 	    		third.x += 1;
@@ -652,26 +647,26 @@ public class TetrisBlock
      * easy to build.
      * 
      */
-    private class Coordinate {
-        public int x;
-        public int y;
-
-        public Coordinate(int newX, int newY) {
-            x = newX;
-            y = newY;
-        }
-
-        public boolean equals(Coordinate other) {
-            if (x == other.x && y == other.y) {
-                return true;
-            }
-            return false;
-        }
-
-            @Override
-        public String toString() {
-            return "Coordinate: [" + x + "," + y + "]";
-        }
-    }
+//    private class Coordinate {
+//        public int x;
+//        public int y;
+//
+//        public Coordinate(int newX, int newY) {
+//            x = newX;
+//            y = newY;
+//        }
+//
+//        public boolean equals(Coordinate other) {
+//            if (x == other.x && y == other.y) {
+//                return true;
+//            }
+//            return false;
+//        }
+//
+//            @Override
+//        public String toString() {
+//            return "Coordinate: [" + x + "," + y + "]";
+//        }
+//    }
     
 }

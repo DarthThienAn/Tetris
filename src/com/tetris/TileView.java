@@ -1,14 +1,15 @@
 package com.tetris;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 
 
 /**
@@ -26,8 +27,9 @@ public class TileView extends View {
 
     protected static int mTileSize;
 
-    protected static int mXTileCount;
-    protected static int mYTileCount;
+    //want it to be 10x20, add 2 to each dimension for walls.
+    protected final static int mXTileCount = 12;
+    protected final static int mYTileCount = 22;
 
     private static int mXOffset;
     private static int mYOffset;
@@ -49,24 +51,35 @@ public class TileView extends View {
 
     public TileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
-
-//        mTileSize = 20; 
-        mTileSize = a.getInt(R.styleable.TileView_tileSize, 12);
         
-        a.recycle();
+        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int w = display.getWidth();
+        int h = display.getHeight();
+        mTileSize = (int) Math.floor(h / mYTileCount);
+
+//        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
+//
+//        mTileSize = a.getInt(R.styleable.TileView_tileSize, 12);
+//        
+//        a.recycle();
+        
     }
 
     public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
-
-//        mTileSize = 20; //a.getInt(R.styleable.TileView_tileSize, 12);
-        mTileSize = a.getInt(R.styleable.TileView_tileSize, 12);
+        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int w = display.getWidth();
+        int h = display.getHeight();
+        mTileSize = (int) Math.floor(h / mYTileCount);
         
-        a.recycle();
+//    	mTileSize = (int) Math.floor(h / mYTileCount);
+//        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
+//
+//        mTileSize = 20; //a.getInt(R.styleable.TileView_tileSize, 12);
+//        mTileSize = a.getInt(R.styleable.TileView_tileSize, 12);
+//        
+//        a.recycle();
     }
 
     
@@ -85,9 +98,13 @@ public class TileView extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        mXTileCount = (int) Math.floor(w / mTileSize);
-        mYTileCount = (int) Math.floor(h / mTileSize);
+//        mXTileCount = (int) Math.floor(w / mTileSize);
+//        mYTileCount = (int) Math.floor(h / mTileSize);
 
+//    	mXTileCount = 12;
+//    	mYTileCount = 22;
+//    	mTileSize = (int) Math.floor(h / mYTileCount);
+    	
         mXOffset = ((w - (mTileSize * mXTileCount)) / 2);
         mYOffset = ((h - (mTileSize * mYTileCount)) / 2);
 
@@ -139,7 +156,7 @@ public class TileView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+//        super.onDraw(canvas);
 //        Rect r = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
 //        Paint blackPaint = new Paint();
 //        blackPaint.setColor(0xffffffff);
