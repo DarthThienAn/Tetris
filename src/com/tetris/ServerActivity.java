@@ -47,6 +47,7 @@ public class ServerActivity extends Activity
     private Button playTetris;
     PrintWriter out;
     protected static final int MSG_ID = 0x1337;
+    private boolean clicked = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,10 +65,46 @@ public class ServerActivity extends Activity
 
         
         
-        Thread serverThread = new Thread(new ServerThread());
-        serverThread.start();
+//        Thread serverThread = new Thread(new ServerThread());
+//        serverThread.start();
+        
+//        Socket s = null;
+//        try {
+//        	serverSocket = new ServerSocket(SERVERPORT);
+//        } catch (IOException e) {
+//        	e.printStackTrace();
+//        }
+//        while (!clicked)
+//        {
+//        	Message m = new Message();
+//        	m.what = MSG_ID;
+//        	try {
+//        		if (s == null)
+//        			s = serverSocket.accept();
+//        		
+//        		//listen for message and update
+//        		BufferedReader input = new BufferedReader(
+//        				new InputStreamReader(s.getInputStream()));
+//        		String st = null;
+//        		st = input.readLine();
+//        		mClientMsg = st;
+//        		myUpdateHandler.sendMessage(m);
+//
+//        		//send a message
+//        		String sendMsg = mServerMsg.getText().toString();
+//        		out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(s
+//        				.getOutputStream())), true);
+//        		//output the message
+//        		out.println(sendMsg);
+//
+//        		//Begin
+//        		//End
+//        	} catch (IOException e) 
+//        	{
+//        		e.printStackTrace();
+//        	}    
+//        }
     }
-
     
     class ServerThread implements Runnable {
         public void run() {
@@ -119,8 +156,7 @@ public class ServerActivity extends Activity
 
 //      @Override
         public void onClick(View v) {
-            TetrisThread tetrisGame = new TetrisThread();
-            tetrisGame.start();
+        	clicked = true;
 
 //        	out.println("playtetris");
         	

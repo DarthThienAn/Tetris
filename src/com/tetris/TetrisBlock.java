@@ -66,7 +66,7 @@ public class TetrisBlock
 		y1 = newy1;
 //		coord1 = new Coordinate (newx1, newy1);
 		blockType = newBlockType;
-		mOrientation = FACEDOWN;
+		mOrientation = FACEUP;
 		refreshBlock();
 	}
 	

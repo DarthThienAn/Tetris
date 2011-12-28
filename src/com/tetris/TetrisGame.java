@@ -34,16 +34,7 @@ public class TetrisGame {
     private static final int SBLOCK = 5;
     private static final int TBLOCK = 6;
     private static final int ZBLOCK = 7;
-    
-    /**
-     * Current direction the Tetris is facing.
-     */
-//    private int mOrientation = FACEUP;
-    private static final int FACEUP = 0;
-//    private static final int FACERIGHT = 1;
-//    private static final int FACEDOWN = 2;
-//    private static final int FACELEFT = 3;
-    
+        
     /**
      * mScore: used to keep score 
      * mMoveDelay: number of milliseconds between Tetris movements. 
@@ -63,7 +54,7 @@ public class TetrisGame {
     /**
      * mTetrisBlock: a list of Coordinates that make up the Tetris piece
      */
-	private TetrisBlock mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7), FACEUP);
+	private TetrisBlock mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7));
 	private boolean[][] oldBlocks = new boolean[xSize][ySize];
 	private int[][] savedColors = new int[xSize][ySize];
 
@@ -81,7 +72,7 @@ public class TetrisGame {
     
     public TetrisGame()
     {
-    	mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7), FACEUP);
+    	mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7));
     	oldBlocks = new boolean[xSize][ySize];
     	savedColors = new int[xSize][ySize];
     	mScore = 0;
@@ -103,7 +94,7 @@ public class TetrisGame {
     
     private void initNewGame()
     {
-    	mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7), FACEUP);
+    	mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7));
     	oldBlocks = new boolean[xSize][ySize];
     	savedColors = new int[xSize][ySize];
     	mScore = 0;
@@ -286,7 +277,7 @@ public class TetrisGame {
      */
     private void initNewBlock()
     {
-        mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7), FACEUP);
+        mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7));
         mScore += 100;
     }
 

@@ -143,7 +143,7 @@ public class TetrisView extends TileView {
 
         return map;
     }
-
+    
     /**
      * Restore game state if our process is being relaunched
      * 
@@ -279,19 +279,34 @@ public class TetrisView extends TileView {
         }
 
     	mTetrisGame.setMode(newMode);
-    	
-        Resources res = getContext().getResources();
-        CharSequence str = "";
-        if (newMode == PAUSE) {
-            str = res.getText(R.string.mode_pause);
-        }
+
+    	CharSequence str = "";
         if (newMode == READY) {
-            str = res.getText(R.string.mode_ready);
+            str = "Tetris\nPress Up To Play";
+        }
+        if (newMode == PAUSE) {
+            str = "Paused\nPress Up To Resume";
         }
         if (newMode == LOSE) {
-            str = res.getString(R.string.mode_lose_prefix) + mTetrisGame.getScore()
-                  + res.getString(R.string.mode_lose_suffix);
+            str = "Game Over\nScore: " + mTetrisGame.getScore()
+                  + "\nPress Up To Play";
         }
+    	
+//    	<string name="mode_ready">Tetris\nPress Up To Play</string>
+//    	<string name="mode_pause">Paused\nPress Up To Resume</string>
+//    	<string name="mode_lose_prefix">Game Over\nScore: </string>
+//    	<string name="mode_lose_suffix">\nPress Up To Play</string>        Resources res = getContext().getResources();
+//        CharSequence str = "";
+//        if (newMode == PAUSE) {
+//            str = res.getText(R.string.mode_pause);
+//        }
+//        if (newMode == READY) {
+//            str = res.getText(R.string.mode_ready);
+//        }
+//        if (newMode == LOSE) {
+//            str = res.getString(R.string.mode_lose_prefix) + mTetrisGame.getScore()
+//                  + res.getString(R.string.mode_lose_suffix);
+//        }
 
         mStatusText.setText(str);
         mStatusText.setVisibility(View.VISIBLE);

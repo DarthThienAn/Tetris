@@ -55,7 +55,7 @@ public class TileView extends View {
         Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int w = display.getWidth();
         int h = display.getHeight();
-        mTileSize = (int) Math.floor(h / mYTileCount);
+        mTileSize = (int) (Math.floor(w / mYTileCount) / 2);
 
 //        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
 //
@@ -71,7 +71,7 @@ public class TileView extends View {
         Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int w = display.getWidth();
         int h = display.getHeight();
-        mTileSize = (int) Math.floor(h / mYTileCount);
+        mTileSize = (int) (Math.floor(w / mYTileCount));
         
 //    	mTileSize = (int) Math.floor(h / mYTileCount);
 //        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
@@ -105,7 +105,7 @@ public class TileView extends View {
 //    	mYTileCount = 22;
 //    	mTileSize = (int) Math.floor(h / mYTileCount);
     	
-        mXOffset = ((w - (mTileSize * mXTileCount)) / 2);
+        mXOffset = 0;//((w - (mTileSize * mXTileCount)) / 2);
         mYOffset = ((h - (mTileSize * mYTileCount)) / 2);
 
         mTileGrid = new int[mXTileCount][mYTileCount];

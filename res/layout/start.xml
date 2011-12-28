@@ -5,8 +5,8 @@
     android:orientation="vertical" >
 
 <TextView
-		 android:id="@+id/server_status"
-			android:text="@string/server_layout_text"
+		 android:id="@+id/start_text"
+			android:text="Welcome to Tetris101"
 			android:visibility="visible"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -15,19 +15,15 @@
 			android:textColor="#ffffff"
 			android:textSize="24sp"/>
 
-<EditText
-		 android:id="@+id/server_msg"
-			android:text="Message"
-			android:visibility="visible"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="#ffffff"
-			android:textSize="24sp"/>
-
 <Button
-	    android:id="@+id/play_tetris"
-			android:text="@string/play_button"
+	    android:id="@+id/server"
+			android:text="Server"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"/>
 
+<Button
+	    android:id="@+id/client"
+			android:text="Client"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
 </LinearLayout>

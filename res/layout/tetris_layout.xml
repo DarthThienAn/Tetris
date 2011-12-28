@@ -5,25 +5,45 @@
 	android:layout_height="fill_parent">
 	
 	<com.tetris.TetrisView
-	 android:id="@+id/tetris"
-		android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                tileSize="192"
+		android:id="@+id/tetris"
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:gravity="left"
                 />
+
+	<com.tetris.TetrisView
+		android:id="@+id/tetris2"
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:gravity="right"
+                />
+		
 	
 	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent" >
-		
-		<TextView
-		 android:id="@+id/text"
-			android:text="@string/tetris_layout_text"
-			android:visibility="visible"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerInParent="true"
-			android:gravity="center_horizontal"
-			android:textColor="#ffffff"
-			android:textSize="24sp"/>
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+
+	    <TextView
+	        android:id="@+id/text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:gravity="left"
+	        android:text="@string/tetris_layout_text"
+	        android:textColor="#ffffff"
+	        android:textSize="24sp"
+	        android:visibility="visible" />
+	    
+	    <TextView
+	        android:id="@+id/text2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:gravity="right"
+	        android:text="@string/tetris_layout_text"
+	        android:textColor="#ffffff"
+	        android:textSize="24sp"
+	        android:visibility="visible" />
 	</RelativeLayout>
+
 </FrameLayout>
