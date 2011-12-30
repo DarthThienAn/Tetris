@@ -16,7 +16,7 @@ import android.widget.TextView;
 /**
  * TetrisView: implementation of a simple game of Tetris
  */
-public class TetrisView extends TileView {
+public class TetrisView2 extends TileView {
 
     private static final String TAG = "TetrisView";
 
@@ -77,8 +77,8 @@ public class TetrisView extends TileView {
 
         @Override
         public void handleMessage(Message msg) {
-            TetrisView.this.update();
-            TetrisView.this.invalidate();
+            TetrisView2.this.update();
+            TetrisView2.this.invalidate();
         }
 
         public void sleep(long delayMillis) {
@@ -94,12 +94,12 @@ public class TetrisView extends TileView {
      * @param context
      * @param attrs
      */
-    public TetrisView(Context context, AttributeSet attrs) {
+    public TetrisView2(Context context, AttributeSet attrs) {
         super(context, attrs);
         initTetrisView();
    }
 
-    public TetrisView(Context context, AttributeSet attrs, int defStyle) {
+    public TetrisView2(Context context, AttributeSet attrs, int defStyle) {
     	super(context, attrs, defStyle);
     	initTetrisView();
     }
@@ -160,39 +160,6 @@ public class TetrisView extends TileView {
      * 
      * @see android.view.View#onKeyDown(int, android.os.KeyEvent)
      */
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent msg)
-//    {
-////    	if (mTetrisGame == null)
-////    		mTetrisGame = new TetrisGame();
-//
-//        if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-//        	mTetrisGame.update(1);
-//            setMode(RUNNING); //inefficient?
-//            update(); //inefficient: runs updateFalling when no need
-//            return (true);
-//        } 
-//        
-//        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-//        	mTetrisGame.update(2);
-//            return (true);
-//        }
-//        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-//        	mTetrisGame.update(3);
-//            return (true);
-//        }
-//        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-//        	mTetrisGame.update(4);
-//            return (true);
-//        }
-//        if (keyCode == KeyEvent.KEYCODE_SPACE || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-//        	mTetrisGame.update(5);
-//            return (true);
-//        }
-//        
-//        return super.onKeyDown(keyCode, msg);
-//    }
-
     public boolean pressKey(int input)
     {
 //    	if (mTetrisGame == null)
@@ -233,7 +200,8 @@ public class TetrisView extends TileView {
     	}
         }
     	return false;
-    }    
+    }   
+
 /*    @Override
     public boolean onTouchEvent(MotionEvent touchEvent) {
 

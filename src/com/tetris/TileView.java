@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -52,10 +52,12 @@ public class TileView extends View {
     public TileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
-        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int w = display.getWidth();
-        int h = display.getHeight();
-        mTileSize = (int) (Math.floor(w / mYTileCount) / 2);
+        DisplayMetrics display = getResources().getDisplayMetrics();
+//        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//        int w = display.getWidth();
+//        int h = display.getHeight();
+        int h = display.heightPixels;
+        mTileSize = (int) (Math.floor(h / mYTileCount));
 
 //        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
 //
@@ -68,10 +70,13 @@ public class TileView extends View {
     public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int w = display.getWidth();
-        int h = display.getHeight();
-        mTileSize = (int) (Math.floor(w / mYTileCount));
+//        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//        int w = display.getWidth();
+//        int h = display.getHeight();
+        DisplayMetrics display = getResources().getDisplayMetrics();
+        int h = display.heightPixels;
+//      mTileSize = (int) (Math.floor(h / mYTileCount));
+        mTileSize = 10;
         
 //    	mTileSize = (int) Math.floor(h / mYTileCount);
 //        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TileView);

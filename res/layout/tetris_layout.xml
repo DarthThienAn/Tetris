@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	
-	<com.tetris.TetrisView
+
+	<view class="com.tetris.TetrisView"
 		android:id="@+id/tetris"
 		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
 		android:gravity="left"
-                />
+		android:layout_alignParentLeft="true"/>
 
-	<com.tetris.TetrisView
+	<view class="com.tetris.TetrisView2"	
 		android:id="@+id/tetris2"
 		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
 		android:gravity="right"
-                />
+		android:layout_alignParentRight="true"/>
 		
-	
-	<RelativeLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" >
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+	    android:layout_weight="1"
+		android:text="Text1"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:visibility="visible" />
 
-	    <TextView
-	        android:id="@+id/text"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerInParent="true"
-	        android:gravity="left"
-	        android:text="@string/tetris_layout_text"
-	        android:textColor="#ffffff"
-	        android:textSize="24sp"
-	        android:visibility="visible" />
-	    
-	    <TextView
-	        android:id="@+id/text2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerInParent="true"
-	        android:gravity="right"
-	        android:text="@string/tetris_layout_text"
-	        android:textColor="#ffffff"
-	        android:textSize="24sp"
-	        android:visibility="visible" />
-	</RelativeLayout>
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Text2"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:visibility="visible"
+        android:layout_weight="1"
+		android:layout_alignParentRight="true"/>
 
-</FrameLayout>
+</RelativeLayout>
