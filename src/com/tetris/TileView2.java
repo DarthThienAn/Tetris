@@ -17,7 +17,7 @@ import android.view.WindowManager;
  * drawables.
  * 
  */
-public class TileView extends View {
+public class TileView2 extends View {
 
     /**
      * Parameters controlling the size of the tiles and their range within view.
@@ -49,7 +49,7 @@ public class TileView extends View {
 
     private final Paint mPaint = new Paint();
 
-    public TileView(Context context, AttributeSet attrs, int defStyle) {
+    public TileView2(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
         DisplayMetrics display = getResources().getDisplayMetrics();
@@ -67,7 +67,7 @@ public class TileView extends View {
         
     }
 
-    public TileView(Context context, AttributeSet attrs) {
+    public TileView2(Context context, AttributeSet attrs) {
         super(context, attrs);
 
 //        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -110,7 +110,7 @@ public class TileView extends View {
 //    	mYTileCount = 22;
 //    	mTileSize = (int) Math.floor(h / mYTileCount);
     	
-        mXOffset = 0;//((w - (mTileSize * mXTileCount)) / 2);
+        mXOffset = (w/ 2);
         mYOffset = ((h - (mTileSize * mYTileCount)) / 2);
 
         mTileGrid = new int[mXTileCount][mYTileCount];

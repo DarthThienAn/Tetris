@@ -16,7 +16,7 @@ import android.widget.TextView;
 /**
  * TetrisView: implementation of a simple game of Tetris
  */
-public class TetrisView2 extends TileView {
+public class TetrisView2 extends TileView2 {
 
     private static final String TAG = "TetrisView";
 
