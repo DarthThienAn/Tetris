@@ -40,6 +40,7 @@ public class Start extends Activity {
     
     TetrisView mTetrisView;
     TetrisView2 mTetrisView2;
+    TextView newStatus;
     
     /**
      * Labels for the drawables that will be loaded into the TileView class
@@ -93,7 +94,7 @@ public class Start extends Activity {
     private ServerSocket serverSocket;
 //    private Bundle savedInstanceState;
     private Button playTetris;
-    private PrintWriter out;
+    private PrintWriter serverOut;
     private PrintWriter clientOut;
     protected static final int MSG_ID = 0x1337;
 //    String line = null;
@@ -113,6 +114,8 @@ public class Start extends Activity {
     //connection
     private boolean serverReady = false;
     private boolean clientReady = false;
+    private boolean serverSide = false;
+    private boolean clientSide = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -134,11 +137,13 @@ public class Start extends Activity {
     }
     
     private OnClickListener serverClick = new OnClickListener() {
-
       @Override
-        public void onClick(View v) {
+      public void onClick(View v) 
+      {
 //        	startText.setText("server!");
-        	
+    	  serverSide = true;
+    	  
+    	  
             setContentView(R.layout.server);
             
             serverStatus = (TextView) findViewById(R.id.server_status);
@@ -151,136 +156,15 @@ public class Start extends Activity {
             
             Thread serverThread = new Thread(new ServerThread());
             serverThread.start();
-
-            
-// 		   if (SERVERIP != null)
-// 		   {
-// 			   try 
-// 			   {
-//    			   serverStatus.setText("Listening on IP: " + SERVERIP);
-//    			   serverSocket = new ServerSocket(SERVERPORT);
-//				   // LISTEN FOR INCOMING CLIENTS
-//				   Socket client = serverSocket.accept();
-//				   BufferedReader serverIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
-//				   PrintWriter serverOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
-//    			   while (true)
-//    			   {
-//    				   try 
-//    				   {
-//	
-//	    				   setContentView(R.layout.tetris_layout);
-//				            			  
-//	    				   TetrisView mTetrisView = (TetrisView) findViewById(R.id.tetris);
-//	    				   mTetrisView.setTextView((TextView) findViewById(R.id.text));
-//			                            
-//	    				   mTetrisView.setMode(READY);
-//    				   } catch (Exception e) 
-//    				   {
-//    					   serverStatus.setText("wat");
-//    				   }
-//    			   }
-//    		   } catch (Exception e) 
-//               {
-//               	serverStatus.setText("Oops. Problem.");
-//               }
-// 		   }
       }
     };
-    
-    
-    
-    
-//    				   try {
-//    					   String line = null;
-//    					   BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-//    					   out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
-//    					   Log.d(TAG, "1 " + line);
-//    					   while ((line = in.readLine()) != null)
-//    					   {
-//        					   Log.d(TAG, "2 " + line);
-//    						   if (line.equals("playtetris"))
-//    							   clientReady = true;
-//    						   
-////    						   Log.d("ServerActivity", line);
-//    						   handler.post(new Runnable()
-//    						   {
-//    							   @Override
-//    							   public void run()
-//    							   {
-//            						   serverStatus.setText("Hit play to play");
-//            						   
-//            						   //listen for message and update
-////            						   Message m = new Message();
-////            						   m.what = MSG_ID;
-////									   fromClient = line;
-////									   serverHandler.sendMessage(m);
-//
-//            						   Log.d(TAG, "client: " + clientReady + "server: " + serverReady);
-//									      
-//					            		  //send a message
-//					            		  String sendMsg = mServerMsg.getText().toString();
-//					            		  //output the message
-//					            		  if (serverReady)
-//					            			  out.println("playtetris");
-//					            		  else
-//					            			  out.println(sendMsg + "\n");
-//					            		  
-//					            		  out.flush();
-//					            		  
-//					            		  if (serverReady && clientReady)
-//					            		  {
-//			        						   setContentView(R.layout.tetris_layout);
-//					            			  
-//			        						   TetrisView mTetrisView = (TetrisView) findViewById(R.id.tetris);
-//			        						   mTetrisView.setTextView((TextView) findViewById(R.id.text));
-//					                            
-//			        						   mTetrisView.setMode(READY);
-//					            		  }
-//
-//    							   }
-//    						   });
-//    					   }
-//    					   break;
-//    				   } catch (Exception e) {
-//    					   handler.post(new Runnable() {
-//    						   @Override
-//    						   public void run()
-//    						   {
-//    							   serverStatus.setText("Oops. Cnx interrupt");
-//    						   }
-//    					   });
-//    					   e.printStackTrace();
-//    				   }
-//    			   }
-//    		   } else {
-//    			   handler.post(new Runnable() {
-//    				   @Override
-//    				   public void run () {
-//    					   serverStatus.setText("Couldn't detect");
-//    				   }
-//    			   });
-//    		   }
-//    	   } catch (Exception e) {
-//    		   handler.post(new Runnable() {
-//    			   @Override
-//    			   public void run () {
-//    				   serverStatus.setText("ERROR");
-//    			   }
-//    		   });
-//    		   e.printStackTrace();
-//    	   }
-//
-//     	   
-//     	   
-//     	   
-//        }
-//    };
+
 
     private OnClickListener clientClick = new OnClickListener() {
-
         @Override
           public void onClick(View v) {
 //          	startText.setText("client!");
+        	clientSide = true;
           	
             setContentView(R.layout.client);
 
@@ -302,10 +186,10 @@ public class Start extends Activity {
     	  @Override
           public void onClick(View v) {
     		  serverReady = true;
-    		  if (out != null)
-    			  out.println("playtetris");
+    		  if (serverOut != null)
+    			  serverOut.println("playtetris");
 
-     		  out.flush();
+    		  serverOut.flush();
     		  
     		  if (clientReady)
     		  {
@@ -410,41 +294,6 @@ public class Start extends Activity {
        
        class ServerThread implements Runnable {
            public void run() {
-//              Socket s = null;
-//              try {
-//            	  serverSocket = new ServerSocket(SERVERPORT);
-//              } catch (IOException e) {
-//                 e.printStackTrace();
-//              }
-//              while (!Thread.currentThread().isInterrupted()) {
-//            	  Message m = new Message();
-//            	  m.what = MSG_ID;
-//            	  try {
-//            		  if (s == null)
-//            			  s = serverSocket.accept();
-//                    
-//            		  //listen for message and update
-//            		  BufferedReader input = new BufferedReader(
-//            				  new InputStreamReader(s.getInputStream()));
-//            		  String st = null;
-//            		  st = input.readLine();
-//            		  fromClient = st;
-//            		  serverHandler.sendMessage(m);
-//                                     
-//            		  //send a message
-//            		  String sendMsg = mServerMsg.getText().toString();
-//            		  out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(s
-//            				  .getOutputStream())), true);
-//            		  //output the message
-//            		  out.println(sendMsg + "\n");
-//            		  out.flush();
-//
-//                 } catch (IOException e) {
-//                	 e.printStackTrace();
-//                 }
-//              }
-        	   
-//start #2
         	   try {
         		   if (SERVERIP != null)
         		   {
@@ -486,19 +335,41 @@ public class Start extends Activity {
         				   });
 //48      
         				   try {
-        					   String line = null;
-        					   BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        					   out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
-     						   serverStatus = (TextView) findViewById(R.id.text2);
-        					   Log.d(TAG, "1 " + line);
-        					   while ((line = in.readLine()) != null)
+        					   String fromClient = null;
+        					   BufferedReader serverIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        					   serverOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
+     						   newStatus = (TextView) findViewById(R.id.text2);
+        					   Log.d(TAG, "1 " + fromClient);
+        					   while ((fromClient = serverIn.readLine()) != null)
         					   {
-            					   Log.d(TAG, "2 " + line);
-        						   if (line.equals("playtetris"))
+         						   newStatus = (TextView) findViewById(R.id.text2);
+            					   Log.d(TAG, "2 " + fromClient);
+        						   if (fromClient.equals("playtetris"))
         							   clientReady = true;
-        						   else
-        							   serverStatus.setText(line);
+//        						   else
+//        							   newStatus.setText(fromClient);
 
+        						   if (fromClient.equals("1"))
+        						   {
+        							   newStatus.setText("1");
+        						   }
+        						   if (fromClient.equals("2"))
+        						   {
+        							   newStatus.setText("2");
+        						   }
+        						   if (fromClient.equals("3"))
+        						   {
+        							   newStatus.setText("3");
+        						   }
+        						   if (fromClient.equals("4"))
+        						   {
+        							   newStatus.setText("4");
+        						   }
+        						   if (fromClient.equals("5"))
+        						   {
+        							   newStatus.setText("5");
+        						   }
+        						   
 //        						   Log.d("ServerActivity", line);
         						   handler.post(new Runnable()
         						   {
@@ -527,13 +398,22 @@ public class Start extends Activity {
  					            		  
  					            		  if (serverReady && clientReady)
  					            		  {
- 			        						   setContentView(R.layout.tetris_layout);
+ 					            			  try{
+ 					            				  serverSocket.close();
+	 			        						   } catch (Exception e)
+	 			        						   {
+	 			            						   serverStatus.setText("Close failed?.");
+	 			        						   }
+ 					            			  if(mTetrisView == null)
+ 					            			  {
+ 					            				  setContentView(R.layout.tetris_layout);
  					            			  
- 			        						   mTetrisView = (TetrisView) findViewById(R.id.tetris);
- 			        						   mTetrisView.setTextView((TextView) findViewById(R.id.text));
+ 					            				  mTetrisView = (TetrisView) findViewById(R.id.tetris);
+ 					            				  mTetrisView.setTextView((TextView) findViewById(R.id.text));
  					                            
- 			        						   mTetrisView.setMode(READY);
-// 			        						   serverStatus = (TextView) findViewById(R.id.text2);
+ 					            				  mTetrisView.setMode(READY);
+ 					            				  newStatus = (TextView) findViewById(R.id.text2);
+ 					            			  }
  					            		  }
 
         							   }
@@ -573,78 +453,6 @@ public class Start extends Activity {
 
        public class ClientThread implements Runnable {
            public void run() {
-//               try {
-//                   InetAddress serverAddr = InetAddress.getByName(serverIpAddress);
-//                   //connecting
-//                   Socket s = new Socket(serverAddr, ServerActivity.SERVERPORT);
-//                   connected = true;
-////
-////                   if (connected)
-////                   {
-////                	   setContentView(R.layout.tetris_layout);
-////                   
-////                	   TetrisView mTetrisView = (TetrisView) findViewById(R.id.tetris);
-////                	   mTetrisView.setTextView((TextView) findViewById(R.id.text));
-////                    
-////                	   mTetrisView.setMode(READY);
-////                   }
-////                   
-//                   //connected
-//                   while (connected) 
-//                   {
-////                	   Message m = new Message();
-////                       m.what = MSG_ID;
-//                       try 
-//                       {
-//                    	   //send a message
-//                    	   String sendMsg = mClientMsg.getText().toString();
-//                           PrintWriter outclient = new PrintWriter(new BufferedWriter(
-//   	                       		new OutputStreamWriter(s.getOutputStream())), true);
-//                           //output the message
-//                           outclient.println(sendMsg + "\n");
-//                           outclient.flush();
-//
-//                           //listen for message and update
-//                           BufferedReader input = new BufferedReader(
-//                        		   new InputStreamReader(s.getInputStream()));
-//                           String st = null;
-//                           st = input.readLine();
-//                           fromServer = st;
-//
-////                           Log.d("ClientActivity", fromServer);
-//                   		
-//                           if(fromServer.equals("hi"))
-//                   				fromServer = "bye";
-//
-//                           //run tetris
-//                           if(fromServer.equals("playtetris"))
-//                           {
-//                        	   setContentView(R.layout.tetris_layout);
-//                            
-//                        	   TetrisView mTetrisView = (TetrisView) findViewById(R.id.tetris);
-//                        	   mTetrisView.setTextView((TextView) findViewById(R.id.text));
-//                            
-//                        	   mTetrisView.setMode(READY);
-//                           }
-////                   		clientHandler.sendMessage(m);
-//                             
-//                           
-//                           //flush
-//                               
-//                               
-//                           //Sent
-//                       } catch (Exception e) {
-//                           Log.e("ClientActivity", "S: Error", e);
-//                       }
-//                   }
-//                   s.close();
-////                   Log.d("ClientActivity", "C: Closed.");
-//               } catch (Exception e) {
-////                   Log.e("ClientActivity", "C: Error", e);
-//                   connected = false;
-//               }
-               
-//start #2
                try {
             	   if (!connected)
         		   {
@@ -684,17 +492,39 @@ public class Start extends Activity {
         					   String fromServer = null;
         					   BufferedReader clientIn = new BufferedReader(new InputStreamReader(s.getInputStream()));
         					   clientOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(s.getOutputStream())), true);
-     						   clientStatus = (TextView) findViewById(R.id.text2);
+     						   newStatus = (TextView) findViewById(R.id.text2);
         					   Log.d(TAG, "1 " + fromServer);
         					   while ((fromServer = clientIn.readLine()) != null)
         					   {
+         						   newStatus = (TextView) findViewById(R.id.text2);
             					   Log.d(TAG, "2: " + fromServer);
         						   if (fromServer.equals("playtetris"))
         							   serverReady = true;
-        						   else
-        							   clientStatus.setText(fromServer);
+//        						   else
+//        							   newStatus.setText(fromServer);
+
+        						   if (fromServer.equals("1"))
+        						   {
+        							   newStatus.setText("1");
+        						   }
+        						   if (fromServer.equals("2"))
+        						   {
+        							   newStatus.setText("2");
+        						   }
+        						   if (fromServer.equals("3"))
+        						   {
+        							   newStatus.setText("3");
+        						   }
+        						   if (fromServer.equals("4"))
+        						   {
+        							   newStatus.setText("4");
+        						   }
+        						   if (fromServer.equals("5"))
+        						   {
+        							   newStatus.setText("5");
+        						   }
         						   
-        						   Log.d(TAG, "client: " + clientReady + "server: " + serverReady);
+//        						   Log.d(TAG, "client: " + clientReady + "server: " + serverReady);
         						   
 //        						   Log.d("ServerActivity", line);
         						   handler.post(new Runnable()
@@ -725,12 +555,16 @@ public class Start extends Activity {
  					            		  
  					            		  if(serverReady && clientReady)
  					            		  {
- 					            			  setContentView(R.layout.tetris_layout);
- 					            			  
- 					            			  mTetrisView = (TetrisView) findViewById(R.id.tetris);
- 					            			  mTetrisView.setTextView((TextView) findViewById(R.id.text));
- 				                            
- 					            			  mTetrisView.setMode(READY);
+ 					            			  if(mTetrisView == null)
+ 					            			  {
+	 					            			  setContentView(R.layout.tetris_layout);
+	 					            			  
+	 					            			  mTetrisView = (TetrisView) findViewById(R.id.tetris);
+	 					            			  mTetrisView.setTextView((TextView) findViewById(R.id.text));
+	 				                            
+	 					            			  mTetrisView.setMode(READY);
+	 					            			  newStatus = (TextView) findViewById(R.id.text2);
+ 					            			  }
  					            		  }
         							   }
         						   });
@@ -784,34 +618,75 @@ public class Start extends Activity {
        @Override
        public boolean onKeyDown(int keyCode, KeyEvent msg)
        {
+    	   newStatus = (TextView) findViewById(R.id.text2);
     	   
-    	   if (mTetrisView == null || mTetrisView2 == null)
-       			return false;
+    	   if (!serverSide && !clientSide)
+    	   {
+    		   return false;
+    	   }
+    	   
+    	   if (mTetrisView == null)
+    	   {
+    		   mTetrisView = (TetrisView) findViewById(R.id.tetris);
+    		   newStatus.setText("it was null!");
+    		   return false;
+    	   }
 
     	   if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+//        	   newStatus.setText("1: serverSide: " + serverSide + " clientSide: " + clientSide);
     		   mTetrisView.pressKey(1);
-    		   mTetrisView2.pressKey(1);
+//    		   mTetrisView2.pressKey(1);
+        	   if (serverSide)
+        	   {
+        		   serverOut.println("1");
+//            	   newStatus.setText("server pressed 1");
+        	   }
+        	   if (clientSide)
+        	   {
+        		   clientOut.println("1");
+//            	   newStatus.setText("client pressed 1");
+        	   }
     		   return (true);
            } 
            
     	   if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+//        	   newStatus.setText("i pressed 2");
     		   mTetrisView.pressKey(2);
-    		   mTetrisView2.pressKey(2);
+//    		   mTetrisView2.pressKey(2);
+        	   if (serverSide)
+        		   serverOut.println("2");
+        	   if (clientSide)
+        		   clientOut.println("2");
                return (true);
            }
            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+//        	   newStatus.setText("i pressed 3");
         	   mTetrisView.pressKey(3);
-        	   mTetrisView2.pressKey(3);
+//        	   mTetrisView2.pressKey(3);
+        	   if (serverSide)
+        		   serverOut.println("3");
+        	   if (clientSide)
+        		   clientOut.println("3");
                return (true);
            }
            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-           	mTetrisView.pressKey(4);
-           	mTetrisView2.pressKey(4);
-               return (true);
+//        	   newStatus.setText("i pressed 4");
+        	   mTetrisView.pressKey(4);
+//        	   mTetrisView2.pressKey(4);
+        	   if (serverSide)
+        		   serverOut.println("4");
+        	   if (clientSide)
+        		   clientOut.println("4");
+        	   return (true);
            }
            if (keyCode == KeyEvent.KEYCODE_SPACE || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-           	mTetrisView.pressKey(5);
-           	mTetrisView2.pressKey(5);
+//        	   newStatus.setText("i pressed 5");
+        	   mTetrisView.pressKey(5);
+//        	   mTetrisView2.pressKey(5);
+        	   if (serverSide)
+        		   serverOut.println("5");
+        	   if (clientSide)
+        		   clientOut.println("5");
                return (true);
            }
            
