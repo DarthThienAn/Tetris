@@ -35,6 +35,8 @@ public class TetrisGame {
     private static final int TBLOCK = 6;
     private static final int ZBLOCK = 7;
         
+    private boolean isNewBlock = false;
+    
     /**
      * mScore: used to keep score 
      * mMoveDelay: number of milliseconds between Tetris movements. 
@@ -76,9 +78,18 @@ public class TetrisGame {
     	oldBlocks = new boolean[xSize][ySize];
     	savedColors = new int[xSize][ySize];
     	mScore = 0;
-//    	mMoveDelay = 50;
     	mTimeDelay = 1000;
         mMode = READY;
+    }
+
+    public TetrisGame(int blockType)
+    {
+    	mTetrisBlock = new TetrisBlock(xSize/2, 2, blockType);
+    	oldBlocks = new boolean[xSize][ySize];
+    	savedColors = new int[xSize][ySize];
+    	mScore = 0;
+    	mTimeDelay = 1000;
+        mMode = RUNNING;
     }
 
     public TetrisGame(TetrisBlock mTetrisBlock, long mScore, long mTimeDelay)
@@ -87,9 +98,8 @@ public class TetrisGame {
     	oldBlocks = new boolean[xSize][ySize];
     	savedColors = new int[xSize][ySize];
     	this.mScore = mScore;
-//    	mMoveDelay = 50;
     	this.mTimeDelay = mTimeDelay;
-//        mMode = READY;
+        mMode = READY;
     }
     
     private void initNewGame()
@@ -122,6 +132,11 @@ public class TetrisGame {
     public TetrisBlock getTetrisBlock()
     {
     	return mTetrisBlock;
+    }
+    
+    public boolean getIsNewBlock()
+    {
+    	return isNewBlock;
     }
     
     public long getScore()
@@ -217,6 +232,7 @@ public class TetrisGame {
 	    		} 
 	    		if (mMode == RUNNING)
 	    		{
+//	    			Log.d("GAME", "RUNNING");
 	    			rotateClockwise();
 	    	    	checkTop();
 	    	        clearRow();                
@@ -279,8 +295,19 @@ public class TetrisGame {
     {
         mTetrisBlock = new TetrisBlock(xSize/2, 2, 1 + RNG.nextInt(7));
         mScore += 100;
+        isNewBlock = true;
     }
 
+    public void madeNewBlock()
+    {
+    	isNewBlock = false;
+    }
+    
+    public void newBlock(int blockType)
+    {
+        mTetrisBlock = new TetrisBlock(xSize/2, 2, blockType);
+        mScore += 100;
+    }
 
     /**
      * Updates the current mode of the application (RUNNING or PAUSED or the like)

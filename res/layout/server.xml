@@ -15,15 +15,6 @@
 			android:textColor="#ffffff"
 			android:textSize="24sp"/>
 
-<EditText
-		 android:id="@+id/server_msg"
-			android:text="Message"
-			android:visibility="visible"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="#ffffff"
-			android:textSize="24sp"/>
-
 <Button
 	    android:id="@+id/play_tetris"
 			android:text="@string/play_button"

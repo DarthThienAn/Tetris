@@ -1,6 +1,5 @@
 package com.tetris;
 
-import java.util.Random;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -8,8 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,8 +14,6 @@ import android.widget.TextView;
  * TetrisView: implementation of a simple game of Tetris
  */
 public class TetrisView2 extends TileView2 {
-
-    private static final String TAG = "TetrisView";
 
     /**
      * Current mode of application: READY to run, RUNNING, or you have already
@@ -162,6 +157,7 @@ public class TetrisView2 extends TileView2 {
      */
     public boolean pressKey(int input)
     {
+    	Log.d("TAGME", "key: " + input);
 //    	if (mTetrisGame == null)
 //    		mTetrisGame = new TetrisGame();
 
@@ -174,7 +170,7 @@ public class TetrisView2 extends TileView2 {
     	case 1:
     	{
         	mTetrisGame.update(1);
-            setMode(RUNNING); //inefficient?
+//            mTetrisGame.setMode(RUNNING);
             update(); //inefficient: runs updateFalling when no need
             return (true);
     	}
@@ -198,67 +194,81 @@ public class TetrisView2 extends TileView2 {
         	mTetrisGame.update(5);
             return (true);
     	}
+    	case 11:
+    	{
+        	Log.d("case", "Type 1: " + mTetrisGame.getBlockType());
+    		if (mTetrisGame.getBlockType() != 1)
+    		{
+    			mTetrisGame.newBlock(1);
+    			update();
+    		}
+    		return (true);
+    	}
+    	case 12:
+    	{
+        	Log.d("case", "Type 2: " + mTetrisGame.getBlockType());
+    		if (mTetrisGame.getBlockType() != 2)
+    		{
+    			mTetrisGame.newBlock(2);
+    			update();
+    		}
+    		return (true);
+    	}
+    	case 13:
+    	{
+        	Log.d("case", "Type 3: " + mTetrisGame.getBlockType());
+    		if (mTetrisGame.getBlockType() != 3)
+    		{
+    			mTetrisGame.newBlock(3);
+    			update();
+    		}
+            mTetrisGame.setMode(RUNNING);
+    		return (true);
+    	}
+    	case 14:
+    	{
+        	Log.d("case", "Type 4: " + mTetrisGame.getBlockType());
+    		if (mTetrisGame.getBlockType() != 4)
+    		{
+    			mTetrisGame.newBlock(4);
+    			update();
+    		}
+    		return (true);
+    	}
+    	case 15:
+    	{
+        	Log.d("case", "Type 5: " + mTetrisGame.getBlockType());
+    		if (mTetrisGame.getBlockType() != 5)
+    		{
+    			mTetrisGame.newBlock(5);
+    			update();
+    		}
+    		return (true);
+    	}
+    	case 16:
+    	{
+        	Log.d("case", "Type 6: " + mTetrisGame.getBlockType());
+    		if (mTetrisGame.getBlockType() != 6)
+    		{
+    			mTetrisGame.newBlock(6);
+    			update();
+    		}
+    		return (true);
+    	}
+    	case 17:
+    	{
+        	Log.d("case", "Type 7: " + mTetrisGame.getBlockType());
+    		if (mTetrisGame.getBlockType() != 7)
+    		{
+    			mTetrisGame.newBlock(7);
+    			update();
+    		}
+    		return (true);
+    	}
         }
     	return false;
     }   
-
-/*    @Override
-    public boolean onTouchEvent(MotionEvent touchEvent) {
-
-    	
-        if (touchEvent == MotionEvent.ACTION_UP) {
-            if (mMode == READY | mMode == LOSE) {
-                initNewGame();
-                setMode(RUNNING);
-                update();
-                return (true);
-            } 
-            if (mMode == PAUSE) {
-                setMode(RUNNING);
-                update();
-                return (true);
-            } 
-
-            if (mMode == RUNNING) {
-            	rotateClockwise();
-                update(); //slightly inefficient, runs updateFalling when unnecessary
-            return (true);
-            }
-        } 
-        
-        if (touchEvent == MotionEvent.ACTION_DOWN) {
-            if (!((mTetrisBlock.y1 == mYTileCount - 2) || (mTetrisBlock.y2 == mYTileCount - 2) || (mTetrisBlock.y3 == mYTileCount - 2) || (mTetrisBlock.y4 == mYTileCount - 2)))
-            {
-                if (!((oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1 + 1]) || (oldBlocks[mTetrisBlock.x2][mTetrisBlock.y2 + 1]) || (oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1]) || (oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1])))
-                	mTetrisBlock.moveBlock(SOUTH);
-            }
-            return (true);
-        }
-        if (touchEvent == MotionEvent.ACTION_LEFT) {
-            if (!((mTetrisBlock.x1 < 2) || (mTetrisBlock.x2 < 2) || (mTetrisBlock.x3 < 2) || (mTetrisBlock.x4 < 2)))
-            {
-                if (!((oldBlocks[mTetrisBlock.x1 - 1][mTetrisBlock.y1]) || (oldBlocks[mTetrisBlock.x2 - 1][mTetrisBlock.y2]) || (oldBlocks[mTetrisBlock.x3 - 1][mTetrisBlock.y3]) || (oldBlocks[mTetrisBlock.x4 - 1][mTetrisBlock.y4])))
-                	mTetrisBlock.moveBlock(WEST);
-            }
-            return (true);
-        }
-        if (touchEvent == MotionEvent.ACTION_RIGHT) {
-            if (!((mTetrisBlock.x1 == (mXTileCount - 2)) || (mTetrisBlock.x2 == (mXTileCount - 2)) || (mTetrisBlock.x3 == (mXTileCount - 2)) || (mTetrisBlock.x4 == (mXTileCount - 2))))
-            {
-                if (!((oldBlocks[mTetrisBlock.x1 + 1][mTetrisBlock.y1]) || (oldBlocks[mTetrisBlock.x2 + 1][mTetrisBlock.y2]) || (oldBlocks[mTetrisBlock.x3 + 1][mTetrisBlock.y3]) || (oldBlocks[mTetrisBlock.x4 + 1][mTetrisBlock.y4])))
-                	mTetrisBlock.moveBlock(EAST);
-            }
-            return (true);
-        }
-        if (performLongClick() || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-        	while (!checkCollision())
-        		mTetrisBlock.moveBlock(SOUTH);
-            return (true);
-        }
-        
-        return super.onTouchEvent(touchEvent);
-    }*/
-    
+   
     /**
      * Sets the TextView that will be used to give information (such as "Game
      * Over" to the user.
@@ -283,7 +293,7 @@ public class TetrisView2 extends TileView2 {
         if (newMode == RUNNING & mTetrisGame.getMode() != RUNNING) {
         	mTetrisGame.setMode(newMode);
             mStatusText.setVisibility(View.INVISIBLE);
-            update();
+//            update();
             return;
         }
 
@@ -301,22 +311,6 @@ public class TetrisView2 extends TileView2 {
                   + "\nPress Up To Play";
         }
     	
-//    	<string name="mode_ready">Tetris\nPress Up To Play</string>
-//    	<string name="mode_pause">Paused\nPress Up To Resume</string>
-//    	<string name="mode_lose_prefix">Game Over\nScore: </string>
-//    	<string name="mode_lose_suffix">\nPress Up To Play</string>        Resources res = getContext().getResources();
-//        CharSequence str = "";
-//        if (newMode == PAUSE) {
-//            str = res.getText(R.string.mode_pause);
-//        }
-//        if (newMode == READY) {
-//            str = res.getText(R.string.mode_ready);
-//        }
-//        if (newMode == LOSE) {
-//            str = res.getString(R.string.mode_lose_prefix) + mTetrisGame.getScore()
-//                  + res.getString(R.string.mode_lose_suffix);
-//        }
-
         mStatusText.setText(str);
         mStatusText.setVisibility(View.VISIBLE);
     }

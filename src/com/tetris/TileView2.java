@@ -7,9 +7,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.Display;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 
 
 /**
@@ -155,6 +154,9 @@ public class TileView2 extends View {
      * @param y
      */
     public void setTile(int tileindex, int x, int y) {
+    	if (mTileGrid == null)
+            mTileGrid = new int[mXTileCount][mYTileCount];
+    	
         mTileGrid[x][y] = tileindex;
     }
 

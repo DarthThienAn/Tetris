@@ -43,6 +43,8 @@ public class TetrisView extends TileView {
     private static final int REDUNIT = 7;
     private static final int WALL = 8;
 
+    private boolean isNewBlock = false;
+    
     /**
      * mScore: used to keep score 
      * mMoveDelay: number of milliseconds between Tetris movements. 
@@ -207,7 +209,7 @@ public class TetrisView extends TileView {
     	case 1:
     	{
         	mTetrisGame.update(1);
-            setMode(RUNNING); //inefficient?
+            mTetrisGame.setMode(RUNNING); //inefficient?
             update(); //inefficient: runs updateFalling when no need
             return (true);
     	}
@@ -234,6 +236,17 @@ public class TetrisView extends TileView {
         }
     	return false;
     }    
+    
+    public int getBlockType()
+    {
+    	return mTetrisGame.getBlockType();
+    }
+    
+    public boolean getIsNewBlock()
+    {
+    	return mTetrisGame.getIsNewBlock();
+    }
+    
 /*    @Override
     public boolean onTouchEvent(MotionEvent touchEvent) {
 

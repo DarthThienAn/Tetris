@@ -39,7 +39,6 @@ public class Start extends Activity {
     
     TetrisView mTetrisView;
     TetrisView2 mTetrisView2;
-    TextView newStatus;
     
     /**
      * Labels for the drawables that will be loaded into the TileView class
@@ -86,10 +85,7 @@ public class Start extends Activity {
     public static String SERVERIP = "";
     // DESIGNATE A PORT
     public static final int SERVERPORT = 8080;
-    String fromClient = "";
-    String fromServer = "";
     private TextView serverStatus;
-    private EditText mServerMsg;
 //    private Handler handler = new Handler();
     private ServerSocket serverSocket;
 //    private Bundle savedInstanceState;
@@ -104,7 +100,6 @@ public class Start extends Activity {
     //client
     private TextView clientStatus;
     private EditText serverIp;
-    private EditText mClientMsg;
     private Button connectPhones;
     private Button clientReadyButton;
     private String serverIpAddress = "";
@@ -116,6 +111,8 @@ public class Start extends Activity {
     private boolean clientReady = false;
     private boolean serverSide = false;
     private boolean clientSide = false;
+    private String fromClient = "";
+    private String fromServer = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -130,8 +127,8 @@ public class Start extends Activity {
         startText = (TextView) findViewById(R.id.start_text);
 //        this.savedInstanceState = savedInstanceState;
         serverButton = (Button) findViewById(R.id.server);
-        clientButton = (Button) findViewById(R.id.client);
         serverButton.setOnClickListener(serverClick);
+        clientButton = (Button) findViewById(R.id.client);
         clientButton.setOnClickListener(clientClick);
 
     }
@@ -145,7 +142,6 @@ public class Start extends Activity {
     		setContentView(R.layout.server);
     		
     		serverStatus = (TextView) findViewById(R.id.server_status);
-    		mServerMsg = (EditText) findViewById(R.id.server_msg);
     		SERVERIP = getLocalIpAddress();
     		serverStatus.setText("Waiting for connection at: " + SERVERIP);
     		//serverReady button
@@ -167,7 +163,6 @@ public class Start extends Activity {
 
     		clientStatus = (TextView) findViewById(R.id.client_status);
             serverIp = (EditText) findViewById(R.id.server_ip);
-            mClientMsg = (EditText) findViewById(R.id.client_msg);
             connectPhones = (Button) findViewById(R.id.connect_phones);
             connectPhones.setOnClickListener(connectClick);
     		//clientReady button
@@ -187,7 +182,7 @@ public class Start extends Activity {
     		  serverReady = true;
     		  if (serverOut != null)
     		  {
-    			  serverOut.println("playtetris\n");
+    			  serverOut.println("playtetris");
     			  serverOut.flush();
     		  }
     		  
@@ -195,7 +190,8 @@ public class Start extends Activity {
     		  {
      			  if(mTetrisView == null)
      			  {
-					   setContentView(R.layout.tetris_layout);
+     				  Log.d(TAG, "serverReadyClick");
+     				  setContentView(R.layout.tetris_layout);
           			  
 					   mTetrisView = (TetrisView) findViewById(R.id.tetris);
 					   mTetrisView.setTextView((TextView) findViewById(R.id.text));
@@ -204,7 +200,29 @@ public class Start extends Activity {
                     
 					   mTetrisView.setMode(READY);
 					   mTetrisView2.setMode(READY);
-//         			  newStatus = (TextView) findViewById(R.id.text2);
+					   
+	        		   mTetrisView.pressKey(1);
+	        		   mTetrisView2.pressKey(1);
+
+		        	   if (serverSide)
+		        	   {
+//		        		   serverOut.println("1");
+//		        		   serverOut.flush();
+		        		   serverOut.println((10 + mTetrisView.getBlockType()));
+		        		   serverOut.flush();
+//		        		   mTetrisView.pressKey(1);
+//		        		   mTetrisView2.pressKey(1);
+		        	   }
+		        	   if (clientSide)
+		        	   {
+//		        		   clientOut.println("1");
+//		        		   clientOut.flush();
+		        		   clientOut.println((10 + mTetrisView.getBlockType()));
+		        		   clientOut.flush();
+//		        		   mTetrisView.pressKey(1);
+//		        		   mTetrisView2.pressKey(1);
+		        	   }
+
      			  }
     		  }
           }
@@ -218,7 +236,7 @@ public class Start extends Activity {
     		  clientReady = true;
     		  if (clientOut != null)
     		  {
-    			  clientOut.println("playtetris\n");
+    			  clientOut.println("playtetris");
     			  clientOut.flush();
     		  }    		  
     		  
@@ -226,6 +244,7 @@ public class Start extends Activity {
     		  {
      			  if(mTetrisView == null)
      			  {
+     				  Log.d(TAG, "clientReadyClick");
 					   setContentView(R.layout.tetris_layout);
           			  
 					   mTetrisView = (TetrisView) findViewById(R.id.tetris);
@@ -235,7 +254,29 @@ public class Start extends Activity {
                     
 					   mTetrisView.setMode(READY);
 					   mTetrisView2.setMode(READY);
-//         			  newStatus = (TextView) findViewById(R.id.text2);
+					   
+	        		   mTetrisView.pressKey(1);
+	        		   mTetrisView2.pressKey(1);
+
+		        	   if (serverSide)
+		        	   {
+//		        		   serverOut.println("1");
+//		        		   serverOut.flush();
+		        		   serverOut.println((10 + mTetrisView.getBlockType()));
+		        		   serverOut.flush();
+//		        		   mTetrisView.pressKey(1);
+//		        		   mTetrisView2.pressKey(1);
+		        	   }
+		        	   if (clientSide)
+		        	   {
+//		        		   clientOut.println("1");
+//		        		   clientOut.flush();
+		        		   clientOut.println((10 + mTetrisView.getBlockType()));
+		        		   clientOut.flush();
+//		        		   mTetrisView.pressKey(1);
+//		        		   mTetrisView2.pressKey(1);
+		        	   }
+
      			  }
     		  }
           }
@@ -271,17 +312,6 @@ public class Start extends Activity {
           return null;
       }
 
-      @Override
-      protected void onStop() {
-          super.onStop();
-          try {
-               // MAKE SURE YOU CLOSE THE SOCKET UPON EXITING
-               serverSocket.close();
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-      }
-
        class ServerThread implements Runnable {
            public void run() {
         	   try {
@@ -296,6 +326,7 @@ public class Start extends Activity {
         				   }
         			   });
         			   serverSocket = new ServerSocket(SERVERPORT);
+        			   
         			   while (true)
         			   {
         				   // LISTEN FOR INCOMING CLIENTS
@@ -308,110 +339,141 @@ public class Start extends Activity {
         						   serverStatus.setText("Connected.");
         					   }
         				   });
-//48      
+
         				   try {
         					   BufferedReader serverIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
         					   serverOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
-     						   Log.d(TAG, "Server: 1 = " + fromClient);
+        					   
         					   while ((fromClient = serverIn.readLine()) != null)
         					   {
-        						   newStatus = (TextView) findViewById(R.id.text2);
-        						   
-            					   Log.d(TAG, "Server: 2 = " + fromClient);
+            					   Log.d(TAG, "Server: " + fromClient);
         						   if (fromClient.equals("playtetris"))
+        						   {
         							   clientReady = true;
+        							   fromClient = "0";
+        						   }
 
-        						   if (fromClient.equals("1"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(1);
-        	        					   }
-        	        				   });
-        						   }
-        						   if (fromClient.equals("2"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(2);
-        	        					   }
-        	        				   });
-        						   }
-        						   if (fromClient.equals("3"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(3);
-        	        					   }
-        	        				   });
-        						   }
-        						   if (fromClient.equals("4"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(4);
-        	        					   }
-        	        				   });
-        						   }
-        						   if (fromClient.equals("5"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(5);
-        	        					   }
-        	        				   });
-        						   }
+        						   if (fromClient.equals(""))
+        							   fromClient = "0";
         						   
-        						   handler.post(new Runnable()
-        						   {
-        							   @Override
-        							   public void run()
-        							   {
-        								   Log.d(TAG, "Server= client: " + clientReady + " server: " + serverReady);
-        								   {
-        									   try {
-        										   serverSocket.close();
-        									   } catch (Exception e)
-        									   {
-        										   newStatus.setText("Close failed.");
-        										   Log.d(TAG, "Closed Failed");
-        									   }
-            								   if(serverReady && clientReady)
-            								   {
-	        									   if(mTetrisView == null)
-	        									   {
-	        										   setContentView(R.layout.tetris_layout);
-	 					            			  
-	        										   mTetrisView = (TetrisView) findViewById(R.id.tetris);
-	        										   mTetrisView.setTextView((TextView) findViewById(R.id.text));
-	        										   mTetrisView2 = (TetrisView2) findViewById(R.id.tetris2);
-	        										   mTetrisView2.setTextView((TextView) findViewById(R.id.text2));
-	 					                            
-	        										   mTetrisView.setMode(READY);
-	        										   mTetrisView2.setMode(READY);
-//	        										   if (newStatus == null)
-//	        											   newStatus = (TextView) findViewById(R.id.text2);
-	 					            			  }
-            								   }
- 					            		  }
-
-        							   }
-        						   });
+            					   if (mTetrisView2 != null && !fromClient.equals("0"))
+            					   {
+            						   handler.post(new Runnable()
+            						   {
+            							   @Override
+            							   public void run()
+            							   {
+            								   mTetrisView2.pressKey(Integer.parseInt(fromClient));
+            							   }
+            						   });
+            					   }
+            					   
+								   if(mTetrisView == null)
+								   {
+//									   if (mTetrisView.getIsNewBlock() && !fromClient.equals("0"))
+//									   {
+//            						   handler.post(new Runnable()
+//            						   {
+//            							   @Override
+//            							   public void run()
+//            							   {
+//                        		        	   if (serverSide)
+//                        		        	   {
+//                        		        		   serverOut.println((10 + mTetrisView.getBlockType()));
+//                        		        		   serverOut.flush();
+//                        		        	   }
+//                        		        	   if (clientSide)
+//                        		        	   {
+//                        		        		   clientOut.println((10 + mTetrisView.getBlockType()));
+//                        		        		   clientOut.flush();
+//                        		        	   }
+//            							   }
+//            						   });
+//									   }
+            					   
+									   if(serverReady && clientReady)
+									   {
+										   handler.post(new Runnable()
+										   {
+		        							   @Override
+		        							   public void run()
+		        							   {
+		        								   try {
+		        									   serverSocket.close();
+		        								   } catch (Exception e)
+		        								   {
+	        										   serverStatus.setText("Close failed.");
+	        										   Log.d(TAG, "Closed Failed");
+		        								   }
+		        								   
+		        								   Log.d(TAG, "ServerThread");
+		        								   setContentView(R.layout.tetris_layout);
+	 					            			  	
+		        								   mTetrisView = (TetrisView) findViewById(R.id.tetris);
+		        								   mTetrisView.setTextView((TextView) findViewById(R.id.text));
+		        								   mTetrisView2 = (TetrisView2) findViewById(R.id.tetris2);
+		        								   mTetrisView2.setTextView((TextView) findViewById(R.id.text2));
+		        								   
+		        								   mTetrisView.setMode(READY);
+		        								   mTetrisView2.setMode(READY);
+		        								   
+		        								   mTetrisView.pressKey(1);
+		        								   mTetrisView2.pressKey(1);
+	        										   
+		        								   if (serverSide)
+		        								   {
+//            							        		   serverOut.println("1");
+//            							        		   serverOut.flush();
+		        									   serverOut.println((10 + mTetrisView.getBlockType()));
+//            							        		   mTetrisView.pressKey(1);
+//            							        		   mTetrisView2.pressKey(1);
+		        								   }
+		        								   if (clientSide)
+		        								   {
+//            							        		   clientOut.println("1");
+//            							        		   clientOut.flush();
+		        									   clientOut.println((10 + mTetrisView.getBlockType()));
+//            							        		   mTetrisView.pressKey(1);
+//            							        		   mTetrisView2.pressKey(1);
+		        								   }
+		        							   }
+										   });
+									   }
+								   }
+        						   
+//								   if(mTetrisView == null)
+//								   {
+//									   if (mTetrisView.getIsNewBlock())// && !fromClient.equals("0"))
+//									   {
+//            						   handler.post(new Runnable()
+//            						   {
+//            							   @Override
+//            							   public void run()
+//            							   {
+//                        		        	   if (serverSide)
+//                        		        	   {
+//                        		        		   serverOut.println((10 + mTetrisView.getBlockType()));
+//                        		        		   serverOut.flush();
+//                        		        	   }
+//                        		        	   if (clientSide)
+//                        		        	   {
+//                        		        		   clientOut.println((10 + mTetrisView.getBlockType()));
+//                        		        		   clientOut.flush();
+//                        		        	   }
+//            							   }
+//            						   });
+//									   }
+//								   }
+									   
+//    	        				   handler.post(new Runnable()
+//    	        				   {
+//    	        					   @Override
+//    	        					   public void run()
+//    	        					   {
+//    	        						   if (!fromClient.equals("0"))
+//    	        							   mTetrisView2.pressKey(Integer.parseInt(fromClient));
+//    	        					   }
+//    	        				   });        						   
         					   }
         					   break;
         				   } catch (Exception e) {
@@ -452,18 +514,10 @@ public class Start extends Activity {
         		   {
             		   InetAddress serverAddr = InetAddress.getByName(serverIpAddress);
             		   //connecting
-            		   Socket s = new Socket(serverAddr, SERVERPORT);
-            		   if (s != null)
+            		   Socket server = new Socket(serverAddr, SERVERPORT);
+            		   if (server != null)
             			   connected = true;
             		   
-//        			   handler.post(new Runnable()
-//        			   {
-//        				   @Override
-//        				   public void run()
-//        				   {
-//        					   clientStatus.setText("First step");
-//        				   }
-//        			   });
         			   while (connected)
         			   {
         				   handler.post(new Runnable()
@@ -474,101 +528,117 @@ public class Start extends Activity {
         						   clientStatus.setText("Connected.");
         					   }
         				   });
-//48      
+
         				   try {
-        					   BufferedReader clientIn = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        					   clientOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(s.getOutputStream())), true);
-        					   Log.d(TAG, "Client: 1 = " + fromServer);
+        					   BufferedReader clientIn = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        					   clientOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(server.getOutputStream())), true);
+        					   
         					   while ((fromServer = clientIn.readLine()) != null)
         					   {
-        						   newStatus = (TextView) findViewById(R.id.text2);
-            					   Log.d(TAG, "Client: 2= " + fromServer);
+            					   Log.d(TAG, "Client: " + fromServer);
+            					   
         						   if (fromServer.equals("playtetris"))
+        						   {
         							   serverReady = true;
+        							   fromServer = "0";
+        						   }
 
-        						   if (fromServer.equals("1"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(1);
-        	        					   }
-        	        				   });
-        						   }
-        						   if (fromServer.equals("2"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(2);
-        	        					   }
-        	        				   });
-        						   }
-        						   if (fromServer.equals("3"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(3);
-        	        					   }
-        	        				   });
-        						   }
-        						   if (fromServer.equals("4"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(4);
-        	        					   }
-        	        				   });
-        						   }
-        						   if (fromServer.equals("5"))
-        						   {
-        	        				   handler.post(new Runnable()
-        	        				   {
-        	        					   @Override
-        	        					   public void run()
-        	        					   {
-        	        						   mTetrisView2.pressKey(5);
-        	        					   }
-        	        				   });
-        						   }
+        						   if (fromServer.equals(""))
+        							   fromServer = "0";
         						   
-//        						   Log.d(TAG, "client: " + clientReady + "server: " + serverReady);
+            					   Log.d(TAG, "PostClient: " + fromServer);
+
+            					   if (mTetrisView2 != null && !fromServer.equals("0"))
+            					   {
+            						   handler.post(new Runnable()
+            						   {
+            							   @Override
+            							   public void run()
+            							   {
+//                        					   Log.d(TAG, "PostPostClient: " + fromServer);
+            								   mTetrisView2.pressKey(Integer.parseInt(fromServer));
+            							   }
+            						   });
+            					   }
+            					   
+								   if(mTetrisView == null)
+								   {
+//									   if (mTetrisView.getIsNewBlock() && !fromServer.equals("0"))
+//									   {
+//            						   handler.post(new Runnable()
+//            						   {
+//            							   @Override
+//            							   public void run()
+//            							   {
+//                        		        	   if (serverSide)
+//                        		        	   {
+//                        		        		   serverOut.println((10 + mTetrisView.getBlockType()));
+//                        		        		   serverOut.flush();
+//                        		        	   }
+//                        		        	   if (clientSide)
+//                        		        	   {
+//                        		        		   clientOut.println((10 + mTetrisView.getBlockType()));
+//                        		        		   clientOut.flush();
+//                        		        	   }
+//            							   }
+//            						   });
+//									   }
+
+									   if(serverReady && clientReady)
+									   {
+										   handler.post(new Runnable()
+										   {
+		        							   @Override
+		        							   public void run()
+		        							   {
+	    										   Log.d(TAG, "ClientThread");
+	    										   setContentView(R.layout.tetris_layout);
+	 					            			  
+	    										   mTetrisView = (TetrisView) findViewById(R.id.tetris);
+	    										   mTetrisView.setTextView((TextView) findViewById(R.id.text));
+	    										   mTetrisView2 = (TetrisView2) findViewById(R.id.tetris2);
+	    										   mTetrisView2.setTextView((TextView) findViewById(R.id.text2));
+					                            
+	    										   mTetrisView.setMode(READY);
+	    										   mTetrisView2.setMode(READY);
+	
+								        		   mTetrisView.pressKey(1);
+								        		   mTetrisView2.pressKey(1);
+	        										   
+	    							        	   if (serverSide)
+	    							        	   {
+//	        							        		   serverOut.println("1");
+	//        							        		   serverOut.flush();
+	    							        		   serverOut.println((10 + mTetrisView.getBlockType()));
+	    							        		   serverOut.flush();
+	//        							        		   mTetrisView.pressKey(1);
+	//        							        		   mTetrisView2.pressKey(1);
+	    							        	   }
+	    							        	   if (clientSide)
+	    							        	   {
+	//        							        		   clientOut.println("1");
+	//        							        		   clientOut.flush();
+	    							        		   clientOut.println((10 + mTetrisView.getBlockType()));
+	    							        		   clientOut.flush();
+	//        							        		   mTetrisView.pressKey(1);
+	//        							        		   mTetrisView2.pressKey(1);
+	    							        	   }
+		        							   }
+										   });
+									   }
+								   }
         						   
-//        						   Log.d("ServerActivity", line);
-        						   handler.post(new Runnable()
-        						   {
-        							   @Override
-        							   public void run()
-        							   {
-        								   Log.d(TAG, "Client= client: " + clientReady + " server: " + serverReady);
-										      
-        								   if(serverReady && clientReady)
-        								   {
-        									   if(mTetrisView == null)
-        									   {
-        										   setContentView(R.layout.tetris_layout);
- 	 					            			  
-        										   mTetrisView = (TetrisView) findViewById(R.id.tetris);
-        										   mTetrisView.setTextView((TextView) findViewById(R.id.text));
-        										   mTetrisView2 = (TetrisView2) findViewById(R.id.tetris2);
-        										   mTetrisView2.setTextView((TextView) findViewById(R.id.text2));
- 					                            
-        										   mTetrisView.setMode(READY);
-        										   mTetrisView2.setMode(READY);
-        									   }
-        								   }
-        							   }
-        						   });
+//    	        				   handler.post(new Runnable()
+//    	        				   {
+//    	        					   @Override
+//    	        					   public void run()
+//    	        					   {
+//    	        						   Log.d("keyme", "mark");
+//    	        						   if (!fromServer.equals("0"))
+//    	        							   mTetrisView2.pressKey(Integer.parseInt(fromServer));
+//    	        					   }
+//    	        				   });
+        						   
         					   }
         					   break;
         				   } catch (Exception e) {
@@ -605,115 +675,146 @@ public class Start extends Activity {
        @Override
        public boolean onKeyDown(int keyCode, KeyEvent msg)
        {
-//    	   Log.d(TAG, "first");
-    	   newStatus = (TextView) findViewById(R.id.text2);
     	   
     	   if (!serverSide && !clientSide)
-    	   {
     		   return false;
-    	   }
-//    	   Log.d(TAG, "second");
-    	   
-    	   if (mTetrisView == null)
-    	   {
-    		   mTetrisView = (TetrisView) findViewById(R.id.tetris);
-    		   newStatus.setText("it was null!");
-    		   return false;
-    	   }
-//    	   Log.d(TAG, "third");
 
     	   if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-    		   mTetrisView.pressKey(1);
 //    		   mTetrisView2.pressKey(1);
         	   if (serverSide)
         	   {
-        		   serverOut.println("1\n");
+//        		   serverOut.println((10 + mTetrisView.getBlockType()));
+//        		   serverOut.flush();
+        		   serverOut.println("1");
         		   serverOut.flush();
-//            	   newStatus.setText("server pressed 1");
         	   }
         	   if (clientSide)
         	   {
-        		   clientOut.println("1\n");
+//        		   clientOut.println((10 + mTetrisView.getBlockType()));
+//        		   clientOut.flush();
+        		   clientOut.println("1");
         		   clientOut.flush();
-//            	   newStatus.setText("client pressed 1");
         	   }
+    		   mTetrisView.pressKey(1);
     		   return (true);
            } 
 //    	   Log.d(TAG, "1+");
            
     	   if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-//        	   newStatus.setText("i pressed 2");
-    		   mTetrisView.pressKey(2);
 //    		   mTetrisView2.pressKey(2);
         	   if (serverSide)
         	   {
-        		   serverOut.println("2\n");
+//        		   serverOut.println((10 + mTetrisView.getBlockType()));
+//        		   serverOut.flush();
+        		   serverOut.println("2");
         		   serverOut.flush();
         	   }
         	   if (clientSide)
         	   {
-        		   clientOut.println("2\n");
+//        		   clientOut.println((10 + mTetrisView.getBlockType()));
+//        		   clientOut.flush();
+        		   clientOut.println("2");
         		   clientOut.flush();
         	   }
+    		   mTetrisView.pressKey(2);
                return (true);
            }
 //    	   Log.d(TAG, "2+");
     	   
            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-//        	   newStatus.setText("i pressed 3");
-        	   mTetrisView.pressKey(3);
 //        	   mTetrisView2.pressKey(3);
         	   if (serverSide)
         	   {
-        		   serverOut.println("3\n");
+//        		   serverOut.println((10 + mTetrisView.getBlockType()));
+//        		   serverOut.flush();
+        		   serverOut.println("3");
         		   serverOut.flush();
         	   }
         	   if (clientSide)
         	   {
-        		   clientOut.println("3\n");
+//        		   clientOut.println((10 + mTetrisView.getBlockType()));
+//        		   clientOut.flush();
+        		   clientOut.println("3");
         		   clientOut.flush();
         	   }
+        	   mTetrisView.pressKey(3);
                return (true);
            }
 //    	   Log.d(TAG, "3+");
     	   
            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-//        	   newStatus.setText("i pressed 4");
-        	   mTetrisView.pressKey(4);
 //        	   mTetrisView2.pressKey(4);
         	   if (serverSide)
         	   {
-        		   serverOut.println("4\n");
+//        		   serverOut.println((10 + mTetrisView.getBlockType()));
+//        		   serverOut.flush();
+        		   serverOut.println("4");
         		   serverOut.flush();
         	   }
         	   if (clientSide)
         	   {
-        		   clientOut.println("4\n");
+//        		   clientOut.println((10 + mTetrisView.getBlockType()));
+//        		   clientOut.flush();
+        		   clientOut.println("4");
         		   clientOut.flush();
         	   }
+        	   mTetrisView.pressKey(4);
         	   return (true);
            }
 //    	   Log.d(TAG, "4+");
 
            if (keyCode == KeyEvent.KEYCODE_SPACE || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-//        	   newStatus.setText("i pressed 5");
-        	   mTetrisView.pressKey(5);
 //        	   mTetrisView2.pressKey(5);
         	   if (serverSide)
         	   {
-        		   serverOut.println("5\n");
+//        		   serverOut.println((10 + mTetrisView.getBlockType()));
+//        		   serverOut.flush();
+        		   serverOut.println("5");
         		   serverOut.flush();
         	   }
         	   if (clientSide)
         	   {
-        		   clientOut.println("5\n");
+//        		   clientOut.println((10 + mTetrisView.getBlockType()));
+//        		   clientOut.flush();
+        		   clientOut.println("5");
         		   clientOut.flush();
         	   }
+        	   mTetrisView.pressKey(5);
                return (true);
            }
 //    	   Log.d(TAG, "5+");
            
            return super.onKeyDown(keyCode, msg);
        }       
+
+       @Override
+       protected void onPause() {
+           super.onPause();
+           // Pause the game along with the activity
+           mTetrisView.setMode(TetrisView.PAUSE);
+           mTetrisView2.setMode(TetrisView.PAUSE);
+       }
+
+       @Override
+       protected void onStop() {
+           super.onStop();
+
+           if(serverSide)
+           {
+        	   try {
+                   // MAKE SURE YOU CLOSE THE SOCKET UPON EXITING
+           		   serverSocket.close();
+           	   } catch (IOException e) {
+           		   e.printStackTrace();
+           	   }
+            }
+       }
+       
+       @Override
+       public void onSaveInstanceState(Bundle outState) {
+           //Store the game state
+           outState.putBundle(ICICLE_KEY, mTetrisView.saveState());
+           outState.putBundle(ICICLE_KEY, mTetrisView2.saveState());
+       }
        
 }       
