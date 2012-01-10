@@ -8,94 +8,93 @@ import android.widget.TextView;
 
 public class Tetris extends Activity {
 
-    private TetrisView mTetrisView;
-    private TetrisView2 mTetrisView2;
-    
-    private static String ICICLE_KEY = "Tetris-view";
+	private TetrisView mTetrisView;
+	private TetrisView2 mTetrisView2;
 
-    /**
-     * Called when Activity is first created
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	private static String ICICLE_KEY = "Tetris-view";
 
-        // No Title bar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+	/**
+	 * Called when Activity is first created
+	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tetris_layout);
+		// No Title bar
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        mTetrisView = (TetrisView) findViewById(R.id.tetris);
-        mTetrisView2 = (TetrisView2) findViewById(R.id.tetris2);
-        mTetrisView.setTextView((TextView) findViewById(R.id.text));
-        mTetrisView2.setTextView((TextView) findViewById(R.id.text2));
+		setContentView(R.layout.tetris_layout);
 
-        if (savedInstanceState == null) {
-            // We were just launched -- set up a new game
-            mTetrisView.setMode(TetrisView.READY);
-            mTetrisView2.setMode(TetrisView.READY);
-        } else {
-            // We are being restored
-            Bundle map = savedInstanceState.getBundle(ICICLE_KEY);
-            if (map != null) {
-                mTetrisView.restoreState(map);
-                mTetrisView2.restoreState(map);
-            } else {
-                mTetrisView.setMode(TetrisView.PAUSE);
-                mTetrisView2.setMode(TetrisView.PAUSE);
-            }
-        }
-    }
+		mTetrisView = (TetrisView) findViewById(R.id.tetris);
+		mTetrisView2 = (TetrisView2) findViewById(R.id.tetris2);
+		mTetrisView.setTextView((TextView) findViewById(R.id.text));
+		// mTetrisView2.setTextView((TextView) findViewById(R.id.text2));
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Pause the game along with the activity
-        mTetrisView.setMode(TetrisView.PAUSE);
-        mTetrisView2.setMode(TetrisView.PAUSE);
-    }
+		if (savedInstanceState == null) {
+			// We were just launched -- set up a new game
+			mTetrisView.setMode(TetrisView.READY);
+			mTetrisView2.setMode(TetrisView.READY);
+		} else {
+			// We are being restored
+			Bundle map = savedInstanceState.getBundle(ICICLE_KEY);
+			if (map != null) {
+				mTetrisView.restoreState(map);
+				mTetrisView2.restoreState(map);
+			} else {
+				mTetrisView.setMode(TetrisView.PAUSE);
+				mTetrisView2.setMode(TetrisView.PAUSE);
+			}
+		}
+	}
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        //Store the game state
-        outState.putBundle(ICICLE_KEY, mTetrisView.saveState());
-        outState.putBundle(ICICLE_KEY, mTetrisView2.saveState());
-    }
+	@Override
+	protected void onPause() {
+		super.onPause();
+		// Pause the game along with the activity
+		mTetrisView.setMode(TetrisView.PAUSE);
+		mTetrisView2.setMode(TetrisView.PAUSE);
+	}
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent msg)
-    {
-    	if (mTetrisView == null)
-    		return false;
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// Store the game state
+		outState.putBundle(ICICLE_KEY, mTetrisView.saveState());
+		outState.putBundle(ICICLE_KEY, mTetrisView2.saveState());
+	}
 
-        if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-        	mTetrisView.pressKey(1);
-        	mTetrisView2.pressKey(1);
-            return (true);
-        } 
-        
-        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-        	mTetrisView.pressKey(2);
-        	mTetrisView2.pressKey(2);
-            return (true);
-        }
-        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-        	mTetrisView.pressKey(3);
-        	mTetrisView2.pressKey(3);
-            return (true);
-        }
-        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-        	mTetrisView.pressKey(4);
-        	mTetrisView2.pressKey(4);
-            return (true);
-        }
-        if (keyCode == KeyEvent.KEYCODE_SPACE || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-        	mTetrisView.pressKey(5);
-        	mTetrisView2.pressKey(5);
-            return (true);
-        }
-        
-        return super.onKeyDown(keyCode, msg);
-    }
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent msg) {
+		if (mTetrisView == null)
+			return false;
+
+		if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+			mTetrisView.pressKey(1);
+			mTetrisView2.pressKey(1);
+			return (true);
+		}
+
+		if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+			mTetrisView.pressKey(2);
+			mTetrisView2.pressKey(2);
+			return (true);
+		}
+		if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+			mTetrisView.pressKey(3);
+			mTetrisView2.pressKey(3);
+			return (true);
+		}
+		if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+			mTetrisView.pressKey(4);
+			mTetrisView2.pressKey(4);
+			return (true);
+		}
+		if (keyCode == KeyEvent.KEYCODE_SPACE
+				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+			mTetrisView.pressKey(5);
+			mTetrisView2.pressKey(5);
+			return (true);
+		}
+
+		return super.onKeyDown(keyCode, msg);
+	}
 }
-

@@ -2,7 +2,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tetris" android:installLocation="auto">
 <uses-permission android:name="android.permission.INTERNET" />
-<uses-sdk android:targetSdkVersion="10" android:minSdkVersion="10"/>
+<uses-sdk android:targetSdkVersion="10" android:minSdkVersion="8"/>
     <application android:label="Tetris 101!">
       <activity android:name="Start"
         android:screenOrientation="portrait"

@@ -1,11 +1,9 @@
 package com.tetris;
 
-import java.util.Random;
-
 /**
  * TetrisView: implementation of a simple game of Tetris
  */
-public class TetrisGame {
+public class TetrisGame2 {
 
 	private static final String TAG = "TetrisGame";
 
@@ -51,15 +49,9 @@ public class TetrisGame {
 	/**
 	 * mTetrisBlock: a list of Coordinates that make up the Tetris piece
 	 */
-	private TetrisBlock mTetrisBlock = new TetrisBlock(xSize / 2, 1,
-			1 + RNG.nextInt(7));
+	private TetrisBlock mTetrisBlock;
 	private boolean[][] oldBlocks = new boolean[xSize][ySize];
 	private int[][] savedColors = new int[xSize][ySize];
-
-	/**
-	 * Everyone needs a little randomness in their life
-	 */
-	private static final Random RNG = new Random();
 
 	/**
 	 * dimensions of the Tetris world.
@@ -67,8 +59,8 @@ public class TetrisGame {
 	private static final int xSize = 12;
 	private static final int ySize = 22;
 
-	public TetrisGame() {
-		mTetrisBlock = new TetrisBlock(xSize / 2, 1, 1 + RNG.nextInt(7));
+	public TetrisGame2() {
+		mTetrisBlock = new TetrisBlock(xSize / 2, 2, 8);
 		oldBlocks = new boolean[xSize][ySize];
 		savedColors = new int[xSize][ySize];
 		mScore = 0;
@@ -76,7 +68,7 @@ public class TetrisGame {
 		mMode = READY;
 	}
 
-	public TetrisGame(int blockType) {
+	public TetrisGame2(int blockType) {
 		mTetrisBlock = new TetrisBlock(xSize / 2, 1, blockType);
 		oldBlocks = new boolean[xSize][ySize];
 		savedColors = new int[xSize][ySize];
@@ -85,7 +77,7 @@ public class TetrisGame {
 		mMode = RUNNING;
 	}
 
-	public TetrisGame(TetrisBlock mTetrisBlock, long mScore, long mTimeDelay) {
+	public TetrisGame2(TetrisBlock mTetrisBlock, long mScore, long mTimeDelay) {
 		this.mTetrisBlock = mTetrisBlock;
 		oldBlocks = new boolean[xSize][ySize];
 		savedColors = new int[xSize][ySize];
@@ -95,7 +87,7 @@ public class TetrisGame {
 	}
 
 	private void initNewGame() {
-		mTetrisBlock = new TetrisBlock(xSize / 2, 1, 1 + RNG.nextInt(7));
+		mTetrisBlock = new TetrisBlock(xSize / 2, 2, 8);
 		oldBlocks = new boolean[xSize][ySize];
 		savedColors = new int[xSize][ySize];
 		mScore = 0;
@@ -241,6 +233,8 @@ public class TetrisGame {
 			}
 			break;
 		}
+		// if (keyCode == KeyEvent.KEYCODE_SPACE || keyCode ==
+		// KeyEvent.KEYCODE_DPAD_CENTER) {
 		case 5: {
 			// as long as it doesn't hit anything on the way down
 			while (!checkCollision())
@@ -253,21 +247,11 @@ public class TetrisGame {
 	/**
 	 * creates a new block at the top, and adds 100 to the player's score.
 	 */
-	private void initNewBlock() {
+	public void initNewBlock(int blockType) {
 		if (!checkTop()) {
-			// generate a new block of random type that is not the type of the
-			// previous block
-			int rng = 1 + RNG.nextInt(7);
-			while (rng == mTetrisBlock.getBlockType())
-				rng = 1 + RNG.nextInt(7);
-
-			mTetrisBlock = new TetrisBlock(xSize / 2, 1, rng);
+			mTetrisBlock = new TetrisBlock(xSize / 2, 1, blockType);
 			mScore += 100;
 		}
-	}
-
-	public void newBlock(int blockType, int x, int y) {
-		mTetrisBlock = new TetrisBlock(xSize / 2, 1, blockType);
 	}
 
 	/**
@@ -321,7 +305,6 @@ public class TetrisGame {
 				|| mTetrisBlock.y3 > (ySize - 3)
 				|| mTetrisBlock.y4 > (ySize - 3)) {
 			saveBlocks();
-			initNewBlock();
 			clearRow();
 			return true;
 		}
@@ -332,7 +315,6 @@ public class TetrisGame {
 				|| oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1]
 				|| oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1]) {
 			saveBlocks();
-			initNewBlock();
 			clearRow();
 			return true;
 		}
@@ -352,10 +334,6 @@ public class TetrisGame {
 			for (int x = 1; x < xSize - 1; x++) {
 				if (!oldBlocks[x][z])
 					full = false;
-
-				// ideally figure out way to break loop sooner
-				// if (!full)
-				// return;
 			}
 
 			if (full) {

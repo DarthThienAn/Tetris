@@ -1,33 +1,28 @@
 package com.tetris;
 
-import android.util.Log;
+public class TetrisBlock {
+	private static final String TAG = "TetrisView";
 
-public class TetrisBlock 
-{
-    private static final String TAG = "TetrisView";
-	
 	private int blockType;
-    private static final int IBLOCK = 1;
-    private static final int JBLOCK = 2;
-    private static final int LBLOCK = 3;
-    private static final int OBLOCK = 4;
-    private static final int SBLOCK = 5;
-    private static final int TBLOCK = 6;
-    private static final int ZBLOCK = 7;
-	
-    private int mOrientation = FACEUP;
-    private static final int FACEUP = 0;
-    private static final int FACERIGHT = 1;
-    private static final int FACEDOWN = 2;
-    private static final int FACELEFT = 3;
-	
-    private static final int SOUTH = 2;
-    private static final int EAST = 3;
-    private static final int WEST = 4;
-/*		public Coordinate first;
-	public Coordinate second;
-	public Coordinate third;
-	public Coordinate fourth;*/
+	private static final int IBLOCK = 1;
+	private static final int JBLOCK = 2;
+	private static final int LBLOCK = 3;
+	private static final int OBLOCK = 4;
+	private static final int SBLOCK = 5;
+	private static final int TBLOCK = 6;
+	private static final int ZBLOCK = 7;
+	private static final int BLACK = 8;
+
+	private int mOrientation = FACEUP;
+	private static final int FACEUP = 0;
+	private static final int FACERIGHT = 1;
+	private static final int FACEDOWN = 2;
+	private static final int FACELEFT = 3;
+
+	private static final int SOUTH = 2;
+	private static final int EAST = 3;
+	private static final int WEST = 4;
+
 	public int x1;
 	public int x2;
 	public int x3;
@@ -36,637 +31,370 @@ public class TetrisBlock
 	public int y2;
 	public int y3;
 	public int y4;
-//	public Coordinate coord1;
-//	public Coordinate coord2;
-//	public Coordinate coord3;
-//	public Coordinate coord4;
-	
-//	public TetrisBlock(int newx1, int newy1, int newx2, int newy2, int newx3, int newy3, int newx4, int newy4) 
-//	{
-///*    		first = new Coordinate(newx1, newy1);
-//		second = new Coordinate(newx2, newy2);
-//		third = new Coordinate(newx3, newy3);
-//		fourth = new Coordinate(newx4, newy4);*/
-//		x1 = newx1;
-//		y1 = newy1;
-//		x2 = newx2;
-//		y2 = newy2;
-//		x3 = newx3;
-//		y3 = newy3;
-//		x4 = newx4;
-//		y4 = newy4;
-//		
-//		mOrientation = FACEDOWN;
-//		refreshBlock();
-//	}
-	
-	public TetrisBlock(int newx1, int newy1, int newBlockType)
-	{
+
+	public TetrisBlock(int newx1, int newy1, int newBlockType) {
 		x1 = newx1;
 		y1 = newy1;
-//		coord1 = new Coordinate (newx1, newy1);
 		blockType = newBlockType;
 		mOrientation = FACEUP;
 		refreshBlock();
 	}
-	
-	public TetrisBlock(int newx1, int newy1, int newBlockType, int newOrientation)
-	{
+
+	public TetrisBlock(int newx1, int newy1, int newBlockType,
+			int newOrientation) {
 		x1 = newx1;
 		y1 = newy1;
-//		coord1 = new Coordinate (newx1, newy1);
 		blockType = newBlockType;
 		mOrientation = newOrientation;
 		refreshBlock();
 	}
-	
-	public int getOrientation()
-	{
+
+	public int getOrientation() {
 		return mOrientation;
 	}
 
-	public int getBlockType()
-	{
+	public int getBlockType() {
 		return blockType;
 	}
-	
-//	public void refreshBlock()
-//	{
-//		switch(blockType)
-//		{
-//			case IBLOCK:
-//			{
-//				x2 = x1 + 1;
-//				x3 = x1 - 1;
-//				x4 = x1 - 2;
-//				y2 = y1;
-//				y3 = y1;
-//				y4 = y1;
-//				break;
-//			}
-//			case JBLOCK:
-//			{
-//				x2 = x1 - 1;
-//				x3 = x1 + 1;
-//				x4 = x1 + 1;
-//				y2 = y1;
-//				y3 = y1;
-//				y4 = y1 - 1;
-//				break;
-//			}
-//			case LBLOCK:
-//			{
-//				x2 = x1 + 1;
-//				x3 = x1 - 1;
-//				x4 = x1 - 1;
-//				y2 = y1;
-//				y3 = y1;
-//				y4 = y1 - 1;
-//				break;
-//			}
-//			case OBLOCK:
-//			{
-//				x2 = x1 + 1;
-//				x3 = x1;
-//				x4 = x1 + 1;
-//				y2 = y1;
-//				y3 = y1 + 1;
-//				y4 = y1 + 1;
-//				break;
-//			}
-//			case SBLOCK:
-//			{
-//				x2 = x1 - 1;
-//				x3 = x1;
-//				x4 = x1 + 1;
-//				y2 = y1;
-//				y3 = y1 - 1;
-//				y4 = y1 - 1;
-//				break;
-//			}
-//			case TBLOCK:
-//			{
-//				x2 = x1;
-//				x3 = x1 - 1;
-//				x4 = x1 + 1;
-//				y2 = y1 + 1;
-//				y3 = y1;
-//				y4 = y1;
-//				break;
-//			}
-//			case ZBLOCK:
-//			{
-//				x2 = x1 + 1;
-//				x3 = x1;
-//				x4 = x1 - 1;
-//				y2 = y1;
-//				y3 = y1 - 1;
-//				y4 = y1 - 1;
-//				break;
-//			}
-//		}
-//	}
-	
-	public void fall()
-	{
-/*    		first.y = first.y + 1;
-		second.y = second.y + 1;
-		third.y = third.y + 1;
-		fourth.y = fourth.y + 1;*/
 
+	public void setBlockType(int blockType) {
+		this.blockType = blockType;
+	}
+
+	public void fall() {
 		y1 += 1;
 		refreshBlock();
 	}
-	
-    public void moveBlock(int mInputDirection)
-    {
-        switch (mInputDirection)
-        {
-        	case EAST: {
-/*    	    		first.x += 1;
-	    		second.x += 1;
-	    		third.x += 1;
-	    		fourth.x += +1;*/
-	    		x1 += 1;
-	    		x2 += 1;
-	    		x3 += 1;
-	    		x4 += 1;
-//	    		coord1.x += 1;
-//	    		coord2.x += 1;
-//	    		coord3.x += 1;
-//	    		coord4.x += 1;
-	    		//can also use refreshBlock() method
-	            break;
-	        }
-	        case WEST: {
-/*    	    		first.y -= 1;
-	    		second.y -= 1;
-	    		third.y -= 1;
-	    		fourth.y -= +1;*/
-	    		x1 -= 1;
-	    		x2 -= 1;
-	    		x3 -= 1;
-	    		x4 -= 1;
-//	    		coord1.x -= 1;
-//	    		coord2.x -= 1;
-//	    		coord3.x -= 1;
-//	    		coord4.x -= 1;
-	            break;
-	        }
-	        case SOUTH: {
-/*    	    		first.y += 1;
-	    		second.y += 1;
-	    		third.y += 1;
-	    		fourth.y += +1;*/
-	    		y1 += 1;
-	    		y2 += 1;
-	    		y3 += 1;
-	    		y4 += 1;
-//	    		coord1.y += 1;
-//	    		coord2.y += 1;
-//	    		coord3.y += 1;
-//	    		coord4.y += 1;
-	            break;
-	        }
-        }
-//        checkCollision();
-   }
 
-	public void flip0()
-	{
-		switch(blockType)
-		{
-			case IBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1 - 1;
-				x4 = x1 - 2;
-				y2 = y1;
-				y3 = y1;
-				y4 = y1;
-//	    		coord2.x = coord1.x + 1;
-//	    		coord3.x = coord1.x - 1;
-//	    		coord4.x = coord1.x - 2;
-//	    		coord2.y = coord1.x;
-//	    		coord3.y = coord1.x;
-//	    		coord4.y = coord1.x;
-				break;
-			}
-			case JBLOCK:
-			{
-				x2 = x1 - 1;
-				x3 = x1 + 1;
-				x4 = x1 + 1;
-				y2 = y1;
-				y3 = y1;
-				y4 = y1 + 1;
-				break;
-			}
-			case LBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1 - 1;
-				x4 = x1 - 1;
-				y2 = y1;
-				y3 = y1;
-				y4 = y1 + 1;
-				break;
-			}
-			case OBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1;
-				x4 = x1 + 1;
-				y2 = y1;
-				y3 = y1 + 1;
-				y4 = y1 + 1;
-				break;
-			}
-			case SBLOCK:
-			{
-				x2 = x1 - 1;
-				x3 = x1;
-				x4 = x1 + 1;
-				y2 = y1;
-				y3 = y1 - 1;
-				y4 = y1 - 1;
-				break;
-			}
-			case TBLOCK:
-			{
-				x2 = x1;
-				x3 = x1 - 1;
-				x4 = x1 + 1;
-				y2 = y1 + 1;
-				y3 = y1;
-				y4 = y1;
-				break;
-			}
-			case ZBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1;
-				x4 = x1 - 1;
-				y2 = y1;
-				y3 = y1 - 1;
-				y4 = y1 - 1;
-				break;
-			}
+	public void moveBlock(int mInputDirection) {
+		switch (mInputDirection) {
+		case EAST: {
+			x1 += 1;
+			x2 += 1;
+			x3 += 1;
+			x4 += 1;
+			break;
+		}
+		case WEST: {
+			x1 -= 1;
+			x2 -= 1;
+			x3 -= 1;
+			x4 -= 1;
+			break;
+		}
+		case SOUTH: {
+			y1 += 1;
+			y2 += 1;
+			y3 += 1;
+			y4 += 1;
+			break;
+		}
 		}
 	}
-	
-    public void flip90()
-    {
-		switch(blockType)
-		{
-			case IBLOCK:
-			{
-				x2 = x1;
-				x3 = x1;
-				x4 = x1;
-				y2 = y1 - 1;
-				y3 = y1 + 1;
-				y4 = y1 + 2;
-				break;
-			}
-			case JBLOCK:
-			{
-				x2 = x1;
-				x3 = x1;
-				x4 = x1 - 1;
-				y2 = y1 - 1;
-				y3 = y1 + 1;
-				y4 = y1 + 1;
-				break;
-			}
-			case LBLOCK:
-			{
-				x2 = x1;
-				x3 = x1;
-				x4 = x1 - 1;
-				y2 = y1 + 1;
-				y3 = y1 - 1;
-				y4 = y1 - 1;
-				break;
-			}
-			case OBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1;
-				x4 = x1 + 1;
-				y2 = y1;
-				y3 = y1 + 1;
-				y4 = y1 + 1;
-				break;
-			}
-			case SBLOCK:
-			{
-				x2 = x1;
-				x3 = x1 + 1;
-				x4 = x1 + 1;
-				y2 = y1 - 1;
-				y3 = y1;
-				y4 = y1 + 1;
-				break;
-			}
-			case TBLOCK:
-			{
-				x2 = x1 - 1;
-				x3 = x1;
-				x4 = x1;
-				y2 = y1;
-				y3 = y1 - 1;
-				y4 = y1 + 1;
-				break;
-			}
-			case ZBLOCK:
-			{
-				x2 = x1;
-				x3 = x1 + 1;
-				x4 = x1 + 1;
-				y2 = y1 + 1;
-				y3 = y1;
-				y4 = y1 - 1;
-				break;
-			}
-		}    
-    }
-    
-    public void flip180()
-    {
-		switch(blockType)
-		{
-			case IBLOCK:
-			{
-				x2 = x1 - 1;
-				x3 = x1 + 1;
-				x4 = x1 + 2;
-				y2 = y1;
-				y3 = y1;
-				y4 = y1;
-				break;
-			}
-			case JBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1 - 1;
-				x4 = x1 - 1;
-				y2 = y1;
-				y3 = y1;
-				y4 = y1 - 1;
-				break;
-			}
-			case LBLOCK:
-			{
-				x2 = x1 - 1;
-				x3 = x1 + 1;
-				x4 = x1 + 1;
-				y2 = y1;
-				y3 = y1;
-				y4 = y1 - 1;
-				break;
-			}
-			case OBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1;
-				x4 = x1 + 1;
-				y2 = y1;
-				y3 = y1 + 1;
-				y4 = y1 + 1;
-				break;
-			}
-			case SBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1;
-				x4 = x1 - 1;
-				y2 = y1;
-				y3 = y1 + 1;
-				y4 = y1 + 1;
-				break;
-			}
-			case TBLOCK:
-			{
-				x2 = x1;
-				x3 = x1 + 1;
-				x4 = x1 - 1;
-				y2 = y1 - 1;
-				y3 = y1;
-				y4 = y1;
-				break;
-			}
-			case ZBLOCK:
-			{
-				x2 = x1 - 1;
-				x3 = x1;
-				x4 = x1 + 1;
-				y2 = y1;
-				y3 = y1 + 1;
-				y4 = y1 + 1;
-				break;
-			}
-		}    
-    }
-   
-    public void flip270()
-    {
-		switch(blockType)
-		{
-			case IBLOCK:
-			{
-				x2 = x1;
-				x3 = x1;
-				x4 = x1;
-				y2 = y1 + 1;
-				y3 = y1 - 1;
-				y4 = y1 - 2;
-				break;
-			}
-			case JBLOCK:
-			{
-				x2 = x1;
-				x3 = x1;
-				x4 = x1 + 1;
-				y2 = y1 + 1;
-				y3 = y1 - 1;
-				y4 = y1 - 1;
-				break;
-			}
-			case LBLOCK:
-			{
-				x2 = x1;
-				x3 = x1;
-				x4 = x1 + 1;
-				y2 = y1 - 1;
-				y3 = y1 + 1;
-				y4 = y1 + 1;
-				break;
-			}
-			case OBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1;
-				x4 = x1 + 1;
-				y2 = y1;
-				y3 = y1 + 1;
-				y4 = y1 + 1;
-				break;
-			}
-			case SBLOCK:
-			{
-				x2 = x1;
-				x3 = x1 - 1;
-				x4 = x1 - 1;
-				y2 = y1 + 1;
-				y3 = y1;
-				y4 = y1 - 1;
-				break;
-			}
-			case TBLOCK:
-			{
-				x2 = x1 + 1;
-				x3 = x1;
-				x4 = x1;
-				y2 = y1;
-				y3 = y1 + 1;
-				y4 = y1 - 1;
-				break;
-			}
-			case ZBLOCK:
-			{
-				x2 = x1;
-				x3 = x1 - 1;
-				x4 = x1 - 1;
-				y2 = y1 - 1;
-				y3 = y1;
-				y4 = y1 + 1;
-				break;
-			}
-		}    
-    }
-    
-    public void refreshBlock()
-    {
-//    	Log.v(TAG, " " + blockType);
-    	
-    	switch(mOrientation)
-		{
-			case FACEUP:
-			{
-				flip0();
-				break;
-			}
-			case FACERIGHT: 
-			{
-				flip90();
-				break;
-			}
-			case FACEDOWN: 
-			{
-				flip180();
-				break;
-			}
-			case FACELEFT: 
-			{
-				flip270();
-				break;
-			}
-		}        
-        
-/*            x4 = x2;
-    	y4 = y2;
-    	x2 = x3;
-    	y2 = y3;*/
-    	
-//    	switch (mOrientation)
-//    	{
-//        	case FACEUP:
-//        	{
-//        		x2 = x1 + 1;
-//        		y2 = y1;
-//        		x3 = x1;
-//        		y3 = y1 + 1;
-//        		x4 = x1;
-//        		y4 = y1 - 1;
-//        		break;
-//        	}
-//        	case FACERIGHT:
-//        	{
-//        		x2 = x1;
-//        		y2 = y1 + 1;
-//        		x3 = x1 - 1;
-//        		y3 = y1;
-//        		x4 = x1 + 1;
-//        		y4 = y1;
-//        		break;
-//        	}
-//        	case FACEDOWN:
-//        	{
-//        		x2 = x1 - 1;
-//        		y2 = y1;
-//        		x3 = x1;
-//        		y3 = y1 - 1;
-//        		x4 = x1;
-//        		y4 = y1 + 1;
-//        		break;
-//        	}
-//        	case FACELEFT:
-//        	{
-//        		x2 = x1;
-//        		y2 = y1 - 1;
-//        		x3 = x1 + 1;
-//        		y3 = y1;
-//        		x4 = x1 - 1;
-//        		y4 = y1;
-//        		break;
-//        	}
-//    	}
-    	
-    	
-    }
 
-    public void rotateClockwise()
-    {
-    	mOrientation = (mOrientation + 1) % 4;
-    	
-    	if(blockType == IBLOCK) 
-    	{
-    		if (mOrientation == FACEDOWN)
-    			x1 -= 1;
-    		if (mOrientation == FACEUP)
-    			x1 += 1;
-    	}
-    	
-    	refreshBlock();
-    }
-    
-    /**
-     * Simple class containing two integer values and a comparison function.
-     * There's probably something I should use instead, but this was quick and
-     * easy to build.
-     * 
-     */
-//    private class Coordinate {
-//        public int x;
-//        public int y;
-//
-//        public Coordinate(int newX, int newY) {
-//            x = newX;
-//            y = newY;
-//        }
-//
-//        public boolean equals(Coordinate other) {
-//            if (x == other.x && y == other.y) {
-//                return true;
-//            }
-//            return false;
-//        }
-//
-//            @Override
-//        public String toString() {
-//            return "Coordinate: [" + x + "," + y + "]";
-//        }
-//    }
-    
+	public void flip0() {
+		switch (blockType) {
+		case IBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1 - 1;
+			x4 = x1 - 2;
+			y2 = y1;
+			y3 = y1;
+			y4 = y1;
+			break;
+		}
+		case JBLOCK: {
+			x2 = x1 - 1;
+			x3 = x1 + 1;
+			x4 = x1 + 1;
+			y2 = y1;
+			y3 = y1;
+			y4 = y1 + 1;
+			break;
+		}
+		case LBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1 - 1;
+			x4 = x1 - 1;
+			y2 = y1;
+			y3 = y1;
+			y4 = y1 + 1;
+			break;
+		}
+		case OBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1;
+			x4 = x1 + 1;
+			y2 = y1;
+			y3 = y1 + 1;
+			y4 = y1 + 1;
+			break;
+		}
+		case SBLOCK: {
+			x2 = x1 - 1;
+			x3 = x1;
+			x4 = x1 + 1;
+			y2 = y1;
+			y3 = y1 - 1;
+			y4 = y1 - 1;
+			break;
+		}
+		case TBLOCK: {
+			x2 = x1;
+			x3 = x1 - 1;
+			x4 = x1 + 1;
+			y2 = y1 + 1;
+			y3 = y1;
+			y4 = y1;
+			break;
+		}
+		case ZBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1;
+			x4 = x1 - 1;
+			y2 = y1;
+			y3 = y1 - 1;
+			y4 = y1 - 1;
+			break;
+		}
+		}
+	}
+
+	public void flip90() {
+		switch (blockType) {
+		case IBLOCK: {
+			x2 = x1;
+			x3 = x1;
+			x4 = x1;
+			y2 = y1 - 1;
+			y3 = y1 + 1;
+			y4 = y1 + 2;
+			break;
+		}
+		case JBLOCK: {
+			x2 = x1;
+			x3 = x1;
+			x4 = x1 - 1;
+			y2 = y1 - 1;
+			y3 = y1 + 1;
+			y4 = y1 + 1;
+			break;
+		}
+		case LBLOCK: {
+			x2 = x1;
+			x3 = x1;
+			x4 = x1 - 1;
+			y2 = y1 + 1;
+			y3 = y1 - 1;
+			y4 = y1 - 1;
+			break;
+		}
+		case OBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1;
+			x4 = x1 + 1;
+			y2 = y1;
+			y3 = y1 + 1;
+			y4 = y1 + 1;
+			break;
+		}
+		case SBLOCK: {
+			x2 = x1;
+			x3 = x1 + 1;
+			x4 = x1 + 1;
+			y2 = y1 - 1;
+			y3 = y1;
+			y4 = y1 + 1;
+			break;
+		}
+		case TBLOCK: {
+			x2 = x1 - 1;
+			x3 = x1;
+			x4 = x1;
+			y2 = y1;
+			y3 = y1 - 1;
+			y4 = y1 + 1;
+			break;
+		}
+		case ZBLOCK: {
+			x2 = x1;
+			x3 = x1 + 1;
+			x4 = x1 + 1;
+			y2 = y1 + 1;
+			y3 = y1;
+			y4 = y1 - 1;
+			break;
+		}
+		}
+	}
+
+	public void flip180() {
+		switch (blockType) {
+		case IBLOCK: {
+			x2 = x1 - 1;
+			x3 = x1 + 1;
+			x4 = x1 + 2;
+			y2 = y1;
+			y3 = y1;
+			y4 = y1;
+			break;
+		}
+		case JBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1 - 1;
+			x4 = x1 - 1;
+			y2 = y1;
+			y3 = y1;
+			y4 = y1 - 1;
+			break;
+		}
+		case LBLOCK: {
+			x2 = x1 - 1;
+			x3 = x1 + 1;
+			x4 = x1 + 1;
+			y2 = y1;
+			y3 = y1;
+			y4 = y1 - 1;
+			break;
+		}
+		case OBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1;
+			x4 = x1 + 1;
+			y2 = y1;
+			y3 = y1 + 1;
+			y4 = y1 + 1;
+			break;
+		}
+		case SBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1;
+			x4 = x1 - 1;
+			y2 = y1;
+			y3 = y1 + 1;
+			y4 = y1 + 1;
+			break;
+		}
+		case TBLOCK: {
+			x2 = x1;
+			x3 = x1 + 1;
+			x4 = x1 - 1;
+			y2 = y1 - 1;
+			y3 = y1;
+			y4 = y1;
+			break;
+		}
+		case ZBLOCK: {
+			x2 = x1 - 1;
+			x3 = x1;
+			x4 = x1 + 1;
+			y2 = y1;
+			y3 = y1 + 1;
+			y4 = y1 + 1;
+			break;
+		}
+		}
+	}
+
+	public void flip270() {
+		switch (blockType) {
+		case IBLOCK: {
+			x2 = x1;
+			x3 = x1;
+			x4 = x1;
+			y2 = y1 + 1;
+			y3 = y1 - 1;
+			y4 = y1 - 2;
+			break;
+		}
+		case JBLOCK: {
+			x2 = x1;
+			x3 = x1;
+			x4 = x1 + 1;
+			y2 = y1 + 1;
+			y3 = y1 - 1;
+			y4 = y1 - 1;
+			break;
+		}
+		case LBLOCK: {
+			x2 = x1;
+			x3 = x1;
+			x4 = x1 + 1;
+			y2 = y1 - 1;
+			y3 = y1 + 1;
+			y4 = y1 + 1;
+			break;
+		}
+		case OBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1;
+			x4 = x1 + 1;
+			y2 = y1;
+			y3 = y1 + 1;
+			y4 = y1 + 1;
+			break;
+		}
+		case SBLOCK: {
+			x2 = x1;
+			x3 = x1 - 1;
+			x4 = x1 - 1;
+			y2 = y1 + 1;
+			y3 = y1;
+			y4 = y1 - 1;
+			break;
+		}
+		case TBLOCK: {
+			x2 = x1 + 1;
+			x3 = x1;
+			x4 = x1;
+			y2 = y1;
+			y3 = y1 + 1;
+			y4 = y1 - 1;
+			break;
+		}
+		case ZBLOCK: {
+			x2 = x1;
+			x3 = x1 - 1;
+			x4 = x1 - 1;
+			y2 = y1 - 1;
+			y3 = y1;
+			y4 = y1 + 1;
+			break;
+		}
+		}
+	}
+
+	public void refreshBlock() {
+		switch (mOrientation) {
+		case FACEUP: {
+			flip0();
+			break;
+		}
+		case FACERIGHT: {
+			flip90();
+			break;
+		}
+		case FACEDOWN: {
+			flip180();
+			break;
+		}
+		case FACELEFT: {
+			flip270();
+			break;
+		}
+		}
+	}
+
+	public void rotateClockwise() {
+		mOrientation = (mOrientation + 1) % 4;
+
+		if (blockType == IBLOCK) {
+			if (mOrientation == FACEDOWN)
+				x1 -= 1;
+			if (mOrientation == FACEUP)
+				x1 += 1;
+		}
+
+		refreshBlock();
+	}
 }
