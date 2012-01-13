@@ -13,11 +13,21 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,7 +35,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class Start extends Activity {
+public class Start extends Activity implements OnGestureListener {
 
 	private static final String TAG = "TetrisView";
 
@@ -79,6 +89,8 @@ public class Start extends Activity {
 
 	private Button serverButton;
 	private Button clientButton;
+	private Button soloButton;
+	private boolean soloMode = false;
 	private boolean serverReady = false;
 	private boolean clientReady = false;
 	private boolean serverSide = false;
@@ -86,9 +98,15 @@ public class Start extends Activity {
 	private String fromClient = "";
 	private String fromServer = "";
 
+	private final int sensitivity = 20;
+	
+	private GestureDetector gestureScanner;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		gestureScanner = new GestureDetector(this);
 
 		// remove title bar
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -100,8 +118,136 @@ public class Start extends Activity {
 		serverButton.setOnClickListener(serverClick);
 		clientButton = (Button) findViewById(R.id.client);
 		clientButton.setOnClickListener(clientClick);
+		soloButton = (Button) findViewById(R.id.solo);
+		soloButton.setOnClickListener(soloClick);
 
 	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent me) {
+		return gestureScanner.onTouchEvent(me);
+	}
+
+	@Override
+	public boolean onDown(MotionEvent e) {
+		return true;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		return true;
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		if (mTetrisView == null)
+			return false;
+		if (!soloMode)
+		{
+			if (!serverSide && !clientSide)
+				return false;
+		}
+		
+//		if (distanceY < (-5*sensitivity)) {
+//			// if (serverSide)
+//			// serverOut.println("2");
+//			// else
+//			// clientOut.println("2");
+//
+//			mTetrisView.pressKey(5);
+//			return (false);
+//		}
+//
+		if (distanceY < (-1*sensitivity)) {
+			// if (serverSide)
+			// serverOut.println("2");
+			// else
+			// clientOut.println("2");
+
+			mTetrisView.pressKey(2);
+			return (true);
+		}
+
+		if (distanceX > sensitivity) {
+			// if (serverSide)
+			// serverOut.println("3");
+			// else
+			// clientOut.println("3");
+
+			mTetrisView.pressKey(3);
+			return (true);
+		}
+
+		if (distanceX < (-1*sensitivity)) {
+			// if (serverSide)
+			// serverOut.println("4");
+			// else
+			// clientOut.println("4");
+
+			mTetrisView.pressKey(4);
+			return (true);
+		}
+
+		return true;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// if (serverSide)
+		// serverOut.println("5");
+		// else
+		// clientOut.println("5");
+
+		if (mTetrisView != null)
+			mTetrisView.pressKey(5);
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+		return;
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+
+		if (mTetrisView != null)
+		{
+			if ((mTetrisView.getMode() == LOSE) || (mTetrisView.getMode() == WIN))
+				System.exit(0);
+			if (mTetrisView.getMode() == READY) {
+				if (!soloMode)
+				{
+					if (serverSide)
+						serverOut.println("1");
+					else
+						clientOut.println("1");
+					mTetrisView2.pressKey(1);
+				}
+				
+				mTetrisView.pressKey(1);
+				return (true);
+			}
+
+			mTetrisView.pressKey(1);
+		}
+		return (true);
+	}
+
+	private OnClickListener soloClick = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+				soloMode = true;
+				
+				setContentView(R.layout.solotetris);
+
+				mTetrisView = (TetrisView) findViewById(R.id.sologame);
+				mTetrisView.setTextView((TextView) findViewById(R.id.solotext));
+
+				mTetrisView.setMode(READY);
+		}
+	};
 
 	private OnClickListener serverClick = new OnClickListener() {
 		@Override
@@ -194,19 +340,52 @@ public class Start extends Activity {
 		@Override
 		public void onClick(View v) {
 			if (!connected) {
-				clientStatus.setText("Attempting to connect.");
+				clientStatus.setText("Attempting to connect...");
 
 				serverIpAddress = serverIp.getText().toString();
 				if (!serverIpAddress.equals("")) {
 					Thread cThread = new Thread(new ClientThread());
 					cThread.start();
 				}
-			}
+			} else
+				clientStatus.setText("???");
+
 		}
 	};
+	
+	public String getCurrentIpAddress () {
+	    try {
+	            HttpClient httpclient = new DefaultHttpClient();
+	            HttpGet httpget = new HttpGet("http://www.whatismyip.org");
+	            HttpResponse response;
 
+	            response = httpclient.execute(httpget);
+
+	            HttpEntity entity = response.getEntity();
+	            if (entity != null) 
+	            {
+	                    long len = entity.getContentLength();
+	                    if (len != -1 && len < 1024) 
+	                            return EntityUtils.toString(entity);
+	                    else
+	                            return "Response too long or error.";
+	            } else {
+	                    return ("Null:" + response.getStatusLine().toString());
+	            }
+
+	    }
+	    catch (Exception e)
+	    {
+	    	return "1";
+	    }
+	}
 	// GETS THE IP ADDRESS OF YOUR PHONE'S NETWORK
 	private String getLocalIpAddress() {
+//		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE); WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+//
+//		int ipAddress = wifiInfo.getIpAddress();
+//
+//		return String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		try {
 			for (Enumeration<NetworkInterface> en = NetworkInterface
 					.getNetworkInterfaces(); en.hasMoreElements();) {
@@ -252,6 +431,8 @@ public class Start extends Activity {
 							BufferedReader serverIn = new BufferedReader(
 									new InputStreamReader(
 											client.getInputStream()));
+							// set true, for auto-flushing after print
+							// statements
 							serverOut = new PrintWriter(new BufferedWriter(
 									new OutputStreamWriter(
 											client.getOutputStream())), true);
@@ -294,12 +475,12 @@ public class Start extends Activity {
 										handler.post(new Runnable() {
 											@Override
 											public void run() {
-												try {
-													serverSocket.close();
-												} catch (Exception e) {
-													serverStatus
-															.setText("Close failed.");
-												}
+//												try {
+//													serverSocket.close();
+//												} catch (Exception e) {
+//													serverStatus
+//															.setText("Close failed.");
+//												}
 
 												setContentView(R.layout.tetris_layout);
 
@@ -361,6 +542,8 @@ public class Start extends Activity {
 					Socket server = new Socket(serverAddr, SERVERPORT);
 					if (server != null)
 						connected = true;
+					else
+						clientStatus.setText("Connect failed");
 
 					while (connected) {
 						if (!serverReady || !clientReady) {
@@ -376,6 +559,8 @@ public class Start extends Activity {
 							BufferedReader clientIn = new BufferedReader(
 									new InputStreamReader(
 											server.getInputStream()));
+							// set true, for auto-flushing after print
+							// statements
 							clientOut = new PrintWriter(new BufferedWriter(
 									new OutputStreamWriter(
 											server.getOutputStream())), true);
@@ -467,9 +652,38 @@ public class Start extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent msg) {
+		if (soloMode)
+		{
+			if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+				mTetrisView.pressKey(1);
+				return (true);
+			}
+
+			if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+				mTetrisView.pressKey(2);
+				return (true);
+			}
+
+			if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+				mTetrisView.pressKey(3);
+				return (true);
+			}
+
+			if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+				mTetrisView.pressKey(4);
+				return (true);
+			}
+
+			if (keyCode == KeyEvent.KEYCODE_SPACE
+					|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+				mTetrisView.pressKey(5);
+				return (true);
+			}
+		}
+		
 		if (!serverSide && !clientSide)
 			return false;
-
+		
 		if ((mTetrisView.getMode() == LOSE) || (mTetrisView.getMode() == WIN))
 			System.exit(0);
 		if (mTetrisView.getMode() == READY) {
@@ -541,18 +755,19 @@ public class Start extends Activity {
 	protected void onPause() {
 		super.onPause();
 
-		if (serverSide && serverOut != null)
-			serverOut.println("gameover");
-		else if (clientSide && clientOut != null)
-			clientOut.println("gameover");
+		if(!soloMode)
+			System.exit(0);
 
-		System.exit(0);
-
+//		if (serverSide && (serverOut != null))
+//			serverOut.println("gameover");
+//		else if (clientSide && (clientOut != null))
+//			clientOut.println("gameover");
+		
 		// Pause the game along with the activity
 		if (mTetrisView != null)
 			mTetrisView.setMode(TetrisView.PAUSE);
-		if (mTetrisView2 != null)
-			mTetrisView2.setMode(TetrisView.PAUSE);
+//		if (mTetrisView2 != null)
+//			mTetrisView2.setMode(TetrisView.PAUSE);
 	}
 
 	@Override
@@ -567,6 +782,8 @@ public class Start extends Activity {
 				e.printStackTrace();
 			}
 		}
+		
+		System.exit(0);
 	}
 
 	@Override
