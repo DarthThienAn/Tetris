@@ -100,6 +100,12 @@ public class TetrisView extends TileView {
 		initTetrisView();
 	}
 
+	public TetrisView(Context context, AttributeSet attrs, int defStyle, TetrisGame a) {
+		super(context, attrs, defStyle);
+		initTetrisView();
+		mTetrisGame = a;
+	}
+	
 	private void initTetrisView() {
 		setFocusable(true);
 
