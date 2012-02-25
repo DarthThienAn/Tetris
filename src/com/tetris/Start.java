@@ -13,13 +13,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,7 +30,7 @@ import android.widget.TextView;
 
 public class Start extends Activity implements OnGestureListener {
 
-	private static final String TAG = "TetrisView";
+//	private static final String TAG = "TetrisView";
 
 	/**
 	 * mode macros
@@ -58,7 +51,6 @@ public class Start extends Activity implements OnGestureListener {
 	private RefreshHandler mRefreshHandler = new RefreshHandler();
 
 	String ICICLE_KEY = "Tetris-view";
-	private TextView startText;
 	/**
 	 * mDelay is the delay between each run of the RefreshHandler
 	 */
@@ -113,7 +105,6 @@ public class Start extends Activity implements OnGestureListener {
 
 		setContentView(R.layout.start);
 
-		startText = (TextView) findViewById(R.id.start_text);
 		serverButton = (Button) findViewById(R.id.server);
 		serverButton.setOnClickListener(serverClick);
 		clientButton = (Button) findViewById(R.id.client);
@@ -161,30 +152,30 @@ public class Start extends Activity implements OnGestureListener {
 //		}
 //
 		if (distanceY < (-1*sensitivity)) {
-			// if (serverSide)
-			// serverOut.println("2");
-			// else
-			// clientOut.println("2");
+			 if (serverSide)
+				 serverOut.println("2");
+			 else
+				 clientOut.println("2");
 
 			mTetrisView.pressKey(2);
 			return (true);
 		}
 
 		if (distanceX > sensitivity) {
-			// if (serverSide)
-			// serverOut.println("3");
-			// else
-			// clientOut.println("3");
+			 if (serverSide)
+				 serverOut.println("3");
+			 else
+				 clientOut.println("3");
 
 			mTetrisView.pressKey(3);
 			return (true);
 		}
 
 		if (distanceX < (-1*sensitivity)) {
-			// if (serverSide)
-			// serverOut.println("4");
-			// else
-			// clientOut.println("4");
+			 if (serverSide)
+				 serverOut.println("4");
+			 else
+				 clientOut.println("4");
 
 			mTetrisView.pressKey(4);
 			return (true);
@@ -195,10 +186,10 @@ public class Start extends Activity implements OnGestureListener {
 
 	@Override
 	public void onLongPress(MotionEvent e) {
-		// if (serverSide)
-		// serverOut.println("5");
-		// else
-		// clientOut.println("5");
+		 if (serverSide)
+			 serverOut.println("5");
+		 else
+			 clientOut.println("5");
 
 		if (mTetrisView != null)
 			mTetrisView.pressKey(5);
@@ -214,22 +205,36 @@ public class Start extends Activity implements OnGestureListener {
 
 		if (mTetrisView != null)
 		{
+//			if ((mTetrisView.getMode() == LOSE) || (mTetrisView.getMode() == WIN))
+//				System.exit(0);
+//			if (mTetrisView.getMode() == READY) {
+//
+//				if (serverSide)
+//					serverOut.println("1");
+//				else
+//					clientOut.println("1");
+//				
+//				mTetrisView.pressKey(1);
+//				return (true);
+//			}
 			if ((mTetrisView.getMode() == LOSE) || (mTetrisView.getMode() == WIN))
 				System.exit(0);
 			if (mTetrisView.getMode() == READY) {
-				if (!soloMode)
-				{
-					if (serverSide)
-						serverOut.println("1");
-					else
-						clientOut.println("1");
-					mTetrisView2.pressKey(1);
-				}
-				
+				if (serverSide)
+					serverOut.println("1");
+				else
+					clientOut.println("1");
+
 				mTetrisView.pressKey(1);
+				mTetrisView2.pressKey(1);
 				return (true);
 			}
 
+			if (serverSide)
+				serverOut.println("1");
+			else
+				clientOut.println("1");
+			
 			mTetrisView.pressKey(1);
 		}
 		return (true);
@@ -353,32 +358,33 @@ public class Start extends Activity implements OnGestureListener {
 		}
 	};
 	
-	public String getCurrentIpAddress () {
-	    try {
-	            HttpClient httpclient = new DefaultHttpClient();
-	            HttpGet httpget = new HttpGet("http://www.whatismyip.org");
-	            HttpResponse response;
-
-	            response = httpclient.execute(httpget);
-
-	            HttpEntity entity = response.getEntity();
-	            if (entity != null) 
-	            {
-	                    long len = entity.getContentLength();
-	                    if (len != -1 && len < 1024) 
-	                            return EntityUtils.toString(entity);
-	                    else
-	                            return "Response too long or error.";
-	            } else {
-	                    return ("Null:" + response.getStatusLine().toString());
-	            }
-
-	    }
-	    catch (Exception e)
-	    {
-	    	return "1";
-	    }
-	}
+//	public String getCurrentIpAddress () {
+//	    try {
+//	            HttpClient httpclient = new DefaultHttpClient();
+//	            HttpGet httpget = new HttpGet("http://www.whatismyip.org");
+//	            HttpResponse response;
+//
+//	            response = httpclient.execute(httpget);
+//
+//	            HttpEntity entity = response.getEntity();
+//	            if (entity != null) 
+//	            {
+//	                    long len = entity.getContentLength();
+//	                    if (len != -1 && len < 1024) 
+//	                            return EntityUtils.toString(entity);
+//	                    else
+//	                            return "Response too long or error.";
+//	            } else {
+//	                    return ("Null:" + response.getStatusLine().toString());
+//	            }
+//
+//	    }
+//	    catch (Exception e)
+//	    {
+//	    	return "1";
+//	    }
+//	}
+	
 	// GETS THE IP ADDRESS OF YOUR PHONE'S NETWORK
 	private String getLocalIpAddress() {
 //		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE); WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -542,8 +548,6 @@ public class Start extends Activity implements OnGestureListener {
 					Socket server = new Socket(serverAddr, SERVERPORT);
 					if (server != null)
 						connected = true;
-					else
-						clientStatus.setText("Connect failed");
 
 					while (connected) {
 						if (!serverReady || !clientReady) {
@@ -774,6 +778,11 @@ public class Start extends Activity implements OnGestureListener {
 	protected void onStop() {
 		super.onStop();
 
+		if (serverSide)
+			serverOut.println("gameover");
+		if (clientSide)
+			clientOut.println("gameover");
+			
 		if (serverSide) {
 			try {
 				// CLOSE THE SOCKET UPON EXITING
