@@ -61,6 +61,8 @@ public class Start extends Activity implements OnGestureListener {
 
 	TetrisView mTetrisView;
 	TetrisView2 mTetrisView2;
+	TetrisGame m;
+	TetrisGame n;
 
 	/**
 	 * runs every mDelay seconds and checks if a new block has been created and
