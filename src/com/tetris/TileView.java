@@ -137,4 +137,8 @@ public class TileView extends View {
 			}
 		}
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4b16c8423fb0c89e7a18f916f0d60db3ba978cb0

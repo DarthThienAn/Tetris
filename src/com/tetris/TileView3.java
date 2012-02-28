@@ -14,7 +14,7 @@ import android.view.View;
  * drawables.
  * 
  */
-public class TileView2 extends View {
+public class TileView3 extends View {
 
 	/**
 	 * Parameters controlling the size of the tiles and their range within view.
@@ -45,19 +45,19 @@ public class TileView2 extends View {
 
 	private final Paint mPaint = new Paint();
 
-	public TileView2(Context context, AttributeSet attrs, int defStyle) {
+	public TileView3(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
 		DisplayMetrics display = getResources().getDisplayMetrics();
-		int w = display.widthPixels;
+		int w = display.heightPixels;
 		mTileSize = (int) (Math.floor(w / mYTileCount) * .9);
 	}
 
-	public TileView2(Context context, AttributeSet attrs) {
+	public TileView3(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		DisplayMetrics display = getResources().getDisplayMetrics();
-		int w = display.widthPixels;
+		int w = display.heightPixels;
 		mTileSize = (int) (Math.floor(w / mYTileCount) * .9);
 	}
 
@@ -74,7 +74,7 @@ public class TileView2 extends View {
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		mXOffset = (w / 2);
+		mXOffset = 0;
 		mYOffset = ((h - (mTileSize * mYTileCount)) / 2);
 
 		mTileGrid = new int[mXTileCount][mYTileCount];
@@ -137,8 +137,4 @@ public class TileView2 extends View {
 			}
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 4b16c8423fb0c89e7a18f916f0d60db3ba978cb0

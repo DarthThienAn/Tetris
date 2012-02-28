@@ -11,4 +11,8 @@
     <string name="client_layout_text">Enter IP Address</string>
     <string name="play_button">Play Tetris!</string>
     <string name="client_button">Enter IP Address</string>
+<<<<<<< HEAD
 </resources>
+=======
+</resources>
+>>>>>>> 4b16c8423fb0c89e7a18f916f0d60db3ba978cb0
