@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
-    package="com.tetris" 
-    android:installLocation="auto"
-	android:versionCode="1"
-    android:versionName="1.0">
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-<uses-sdk android:targetSdkVersion="8" android:minSdkVersion="8"/>
-    <application
-        android:icon="@drawable/ic_launcher"
-        android:label="Tetris 2Player" >
-      <activity 
-          android:name=".Start"
-      	  android:icon="@drawable/ic_launcher"
-        		android:screenOrientation="portrait"
-=======
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tetris" android:installLocation="auto">
 <uses-permission android:name="android.permission.INTERNET" />
@@ -24,7 +7,6 @@
     <application android:label="Tetris 2Player">
       <activity android:name="Start"
         android:screenOrientation="portrait"
->>>>>>> 4b16c8423fb0c89e7a18f916f0d60db3ba978cb0
         android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,8 +14,4 @@
             </intent-filter>
         </activity>
     </application>
-<<<<<<< HEAD
 </manifest> 
-=======
-</manifest> 
->>>>>>> 4b16c8423fb0c89e7a18f916f0d60db3ba978cb0
