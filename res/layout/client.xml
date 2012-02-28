@@ -4,36 +4,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-<TextView
-		 android:id="@+id/client_status"
-			android:text="@string/client_layout_text"
-			android:visibility="visible"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerInParent="true"
-			android:gravity="center_horizontal"
-			android:textColor="#ffffff"
-			android:textSize="24sp"/>
-    
-<EditText
-		 android:id="@+id/server_ip"
-			android:text=""
-			android:visibility="visible"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:gravity="center_horizontal"
-			android:textColor="#000000"
-			android:textSize="24sp"/>
+    <TextView
+        android:id="@+id/client_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:text="@string/client_layout_text"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:visibility="visible" />
 
-<Button
-	    android:id="@+id/connect_phones"
-			android:text="@string/client_layout_text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/server_ip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:visibility="visible" />
 
-<Button
-	    android:id="@+id/play_tetris"
-			android:text="@string/play_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/connect_phones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/client_layout_text" />
+
+    <Button
+        android:id="@+id/play_tetris"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/play_button" />
+
 </LinearLayout>

@@ -1,20 +1,20 @@
 /***
 	"Multiplayer Tetris" is an application that offers online Tetris play
 	Copyright (C) 2012 Mark Ha
-	
+
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-***/
+ ***/
 
 package com.tetris;
 
@@ -23,7 +23,7 @@ package com.tetris;
  */
 public class TetrisGame2 {
 
-	private static final String TAG = "TetrisGame";
+	//	private static final String TAG = "TetrisGame";
 
 	/**
 	 * Current mode of application: READY to run, RUNNING, or you have already
@@ -44,12 +44,12 @@ public class TetrisGame2 {
 
 	// types
 	private static final int IBLOCK = 1;
-	private static final int JBLOCK = 2;
-	private static final int LBLOCK = 3;
-	private static final int OBLOCK = 4;
-	private static final int SBLOCK = 5;
-	private static final int TBLOCK = 6;
-	private static final int ZBLOCK = 7;
+	//	private static final int JBLOCK = 2;
+	//	private static final int LBLOCK = 3;
+	//	private static final int OBLOCK = 4;
+	//	private static final int SBLOCK = 5;
+	//	private static final int TBLOCK = 6;
+	//	private static final int ZBLOCK = 7;
 
 	/**
 	 * mScore: used to keep score mMoveDelay: number of milliseconds between
@@ -330,8 +330,8 @@ public class TetrisGame2 {
 		// if it runs into a block
 		if (oldBlocks[mTetrisBlock.x1][mTetrisBlock.y1 + 1]
 				|| oldBlocks[mTetrisBlock.x2][mTetrisBlock.y2 + 1]
-				|| oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1]
-				|| oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1]) {
+						|| oldBlocks[mTetrisBlock.x3][mTetrisBlock.y3 + 1]
+								|| oldBlocks[mTetrisBlock.x4][mTetrisBlock.y4 + 1]) {
 			saveBlocks();
 			clearRow();
 			return true;
@@ -414,8 +414,8 @@ public class TetrisGame2 {
 					|| (mTetrisBlock.y2 == (ySize - 2))
 					|| (mTetrisBlock.y3 == (ySize - 2))
 					|| (mTetrisBlock.y4 == (ySize - 2)))
-			// || (mTetrisBlock.y2 == (ySize - 4)) || (mTetrisBlock.y3 == (ySize
-			// - 4)) || (mTetrisBlock.y4 == (ySize - 4))))
+				// || (mTetrisBlock.y2 == (ySize - 4)) || (mTetrisBlock.y3 == (ySize
+				// - 4)) || (mTetrisBlock.y4 == (ySize - 4))))
 			{
 				mTetrisBlock.y1 = ySize - 3;
 				mTetrisBlock.refreshBlock();
@@ -487,8 +487,4 @@ public class TetrisGame2 {
 			}
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 4b16c8423fb0c89e7a18f916f0d60db3ba978cb0

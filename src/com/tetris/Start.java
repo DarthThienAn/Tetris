@@ -1,22 +1,22 @@
 /***
 	"Multiplayer Tetris" is an application that offers online Tetris play
 	Copyright (C) 2012 Mark Ha
-	
+
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
-	
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-***/
-    	
-    	package com.tetris;
+ ***/
+
+package com.tetris;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -48,7 +48,7 @@ import android.widget.TextView;
 
 public class Start extends Activity implements OnGestureListener {
 
-//	private static final String TAG = "TetrisView";
+	//	private static final String TAG = "TetrisView";
 
 	/**
 	 * mode macros
@@ -109,7 +109,7 @@ public class Start extends Activity implements OnGestureListener {
 	private String fromServer = "";
 
 	private final int sensitivity = 20;
-	
+
 	private GestureDetector gestureScanner;
 
 	@Override
@@ -158,42 +158,42 @@ public class Start extends Activity implements OnGestureListener {
 			if (!serverSide && !clientSide)
 				return false;
 		}
-		
-//		if (distanceY < (-5*sensitivity)) {
-//			// if (serverSide)
-//			// serverOut.println("2");
-//			// else
-//			// clientOut.println("2");
-//
-//			mTetrisView.pressKey(5);
-//			return (false);
-//		}
-//
+
+		//		if (distanceY < (-5*sensitivity)) {
+		//			// if (serverSide)
+		//			// serverOut.println("2");
+		//			// else
+		//			// clientOut.println("2");
+		//
+		//			mTetrisView.pressKey(5);
+		//			return (false);
+		//		}
+		//
 		if (distanceY < (-1*sensitivity)) {
-			 if (serverSide)
-				 serverOut.println("2");
-			 else
-				 clientOut.println("2");
+			if (serverSide)
+				serverOut.println("2");
+			else
+				clientOut.println("2");
 
 			mTetrisView.pressKey(2);
 			return (true);
 		}
 
 		if (distanceX > sensitivity) {
-			 if (serverSide)
-				 serverOut.println("3");
-			 else
-				 clientOut.println("3");
+			if (serverSide)
+				serverOut.println("3");
+			else
+				clientOut.println("3");
 
 			mTetrisView.pressKey(3);
 			return (true);
 		}
 
 		if (distanceX < (-1*sensitivity)) {
-			 if (serverSide)
-				 serverOut.println("4");
-			 else
-				 clientOut.println("4");
+			if (serverSide)
+				serverOut.println("4");
+			else
+				clientOut.println("4");
 
 			mTetrisView.pressKey(4);
 			return (true);
@@ -204,10 +204,10 @@ public class Start extends Activity implements OnGestureListener {
 
 	@Override
 	public void onLongPress(MotionEvent e) {
-		 if (serverSide)
-			 serverOut.println("5");
-		 else
-			 clientOut.println("5");
+		if (serverSide)
+			serverOut.println("5");
+		else
+			clientOut.println("5");
 
 		if (mTetrisView != null)
 			mTetrisView.pressKey(5);
@@ -223,18 +223,18 @@ public class Start extends Activity implements OnGestureListener {
 
 		if (mTetrisView != null)
 		{
-//			if ((mTetrisView.getMode() == LOSE) || (mTetrisView.getMode() == WIN))
-//				System.exit(0);
-//			if (mTetrisView.getMode() == READY) {
-//
-//				if (serverSide)
-//					serverOut.println("1");
-//				else
-//					clientOut.println("1");
-//				
-//				mTetrisView.pressKey(1);
-//				return (true);
-//			}
+			//			if ((mTetrisView.getMode() == LOSE) || (mTetrisView.getMode() == WIN))
+			//				System.exit(0);
+			//			if (mTetrisView.getMode() == READY) {
+			//
+			//				if (serverSide)
+			//					serverOut.println("1");
+			//				else
+			//					clientOut.println("1");
+			//				
+			//				mTetrisView.pressKey(1);
+			//				return (true);
+			//			}
 			if ((mTetrisView.getMode() == LOSE) || (mTetrisView.getMode() == WIN))
 				System.exit(0);
 			if (mTetrisView.getMode() == READY) {
@@ -252,7 +252,7 @@ public class Start extends Activity implements OnGestureListener {
 				serverOut.println("1");
 			else
 				clientOut.println("1");
-			
+
 			mTetrisView.pressKey(1);
 		}
 		return (true);
@@ -261,14 +261,14 @@ public class Start extends Activity implements OnGestureListener {
 	private OnClickListener soloClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-				soloMode = true;
-				
-				setContentView(R.layout.solotetris);
+			soloMode = true;
 
-				mTetrisView = (TetrisView) findViewById(R.id.sologame);
-				mTetrisView.setTextView((TextView) findViewById(R.id.solotext));
+			setContentView(R.layout.solotetris);
 
-				mTetrisView.setMode(READY);
+			mTetrisView = (TetrisView) findViewById(R.id.sologame);
+			mTetrisView.setTextView((TextView) findViewById(R.id.solotext));
+
+			mTetrisView.setMode(READY);
 		}
 	};
 
@@ -375,41 +375,41 @@ public class Start extends Activity implements OnGestureListener {
 
 		}
 	};
-	
-//	public String getCurrentIpAddress () {
-//	    try {
-//	            HttpClient httpclient = new DefaultHttpClient();
-//	            HttpGet httpget = new HttpGet("http://www.whatismyip.org");
-//	            HttpResponse response;
-//
-//	            response = httpclient.execute(httpget);
-//
-//	            HttpEntity entity = response.getEntity();
-//	            if (entity != null) 
-//	            {
-//	                    long len = entity.getContentLength();
-//	                    if (len != -1 && len < 1024) 
-//	                            return EntityUtils.toString(entity);
-//	                    else
-//	                            return "Response too long or error.";
-//	            } else {
-//	                    return ("Null:" + response.getStatusLine().toString());
-//	            }
-//
-//	    }
-//	    catch (Exception e)
-//	    {
-//	    	return "1";
-//	    }
-//	}
-	
+
+	//	public String getCurrentIpAddress () {
+	//	    try {
+	//	            HttpClient httpclient = new DefaultHttpClient();
+	//	            HttpGet httpget = new HttpGet("http://www.whatismyip.org");
+	//	            HttpResponse response;
+	//
+	//	            response = httpclient.execute(httpget);
+	//
+	//	            HttpEntity entity = response.getEntity();
+	//	            if (entity != null) 
+	//	            {
+	//	                    long len = entity.getContentLength();
+	//	                    if (len != -1 && len < 1024) 
+	//	                            return EntityUtils.toString(entity);
+	//	                    else
+	//	                            return "Response too long or error.";
+	//	            } else {
+	//	                    return ("Null:" + response.getStatusLine().toString());
+	//	            }
+	//
+	//	    }
+	//	    catch (Exception e)
+	//	    {
+	//	    	return "1";
+	//	    }
+	//	}
+
 	// GETS THE IP ADDRESS OF YOUR PHONE'S NETWORK
 	private String getLocalIpAddress() {
-//		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE); WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-//
-//		int ipAddress = wifiInfo.getIpAddress();
-//
-//		return String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
+		//		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE); WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+		//
+		//		int ipAddress = wifiInfo.getIpAddress();
+		//
+		//		return String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		try {
 			for (Enumeration<NetworkInterface> en = NetworkInterface
 					.getNetworkInterfaces(); en.hasMoreElements();) {
@@ -436,7 +436,7 @@ public class Start extends Activity implements OnGestureListener {
 						@Override
 						public void run() {
 							serverStatus
-									.setText("Listening on IP: " + SERVERIP);
+							.setText("Listening on IP: " + SERVERIP);
 						}
 					});
 					serverSocket = new ServerSocket(SERVERPORT);
@@ -499,18 +499,18 @@ public class Start extends Activity implements OnGestureListener {
 										handler.post(new Runnable() {
 											@Override
 											public void run() {
-//												try {
-//													serverSocket.close();
-//												} catch (Exception e) {
-//													serverStatus
-//															.setText("Close failed.");
-//												}
+												//												try {
+												//													serverSocket.close();
+												//												} catch (Exception e) {
+												//													serverStatus
+												//															.setText("Close failed.");
+												//												}
 
 												setContentView(R.layout.tetris_layout);
 
 												mTetrisView = (TetrisView) findViewById(R.id.tetris);
 												mTetrisView
-														.setTextView((TextView) findViewById(R.id.text));
+												.setTextView((TextView) findViewById(R.id.text));
 												mTetrisView2 = (TetrisView2) findViewById(R.id.tetris2);
 
 												mTetrisView.setMode(READY);
@@ -529,7 +529,7 @@ public class Start extends Activity implements OnGestureListener {
 								@Override
 								public void run() {
 									serverStatus
-											.setText("Oops. Connection interrupted.");
+									.setText("Oops. Connection interrupted.");
 								}
 							});
 							e.printStackTrace();
@@ -540,7 +540,7 @@ public class Start extends Activity implements OnGestureListener {
 						@Override
 						public void run() {
 							serverStatus
-									.setText("Couldn't detect a connection.");
+							.setText("Couldn't detect a connection.");
 						}
 					});
 				}
@@ -627,7 +627,7 @@ public class Start extends Activity implements OnGestureListener {
 
 												mTetrisView = (TetrisView) findViewById(R.id.tetris);
 												mTetrisView
-														.setTextView((TextView) findViewById(R.id.text));
+												.setTextView((TextView) findViewById(R.id.text));
 												mTetrisView2 = (TetrisView2) findViewById(R.id.tetris2);
 
 												mTetrisView.setMode(READY);
@@ -646,7 +646,7 @@ public class Start extends Activity implements OnGestureListener {
 								@Override
 								public void run() {
 									clientStatus
-											.setText("Oops. Connection interrupted");
+									.setText("Oops. Connection interrupted");
 								}
 							});
 							e.printStackTrace();
@@ -702,10 +702,10 @@ public class Start extends Activity implements OnGestureListener {
 				return (true);
 			}
 		}
-		
+
 		if (!serverSide && !clientSide)
 			return false;
-		
+
 		if ((mTetrisView.getMode() == LOSE) || (mTetrisView.getMode() == WIN))
 			System.exit(0);
 		if (mTetrisView.getMode() == READY) {
@@ -780,16 +780,16 @@ public class Start extends Activity implements OnGestureListener {
 		if(!soloMode)
 			System.exit(0);
 
-//		if (serverSide && (serverOut != null))
-//			serverOut.println("gameover");
-//		else if (clientSide && (clientOut != null))
-//			clientOut.println("gameover");
-		
+		//		if (serverSide && (serverOut != null))
+		//			serverOut.println("gameover");
+		//		else if (clientSide && (clientOut != null))
+		//			clientOut.println("gameover");
+
 		// Pause the game along with the activity
 		if (mTetrisView != null)
 			mTetrisView.setMode(TetrisView.PAUSE);
-//		if (mTetrisView2 != null)
-//			mTetrisView2.setMode(TetrisView.PAUSE);
+		//		if (mTetrisView2 != null)
+		//			mTetrisView2.setMode(TetrisView.PAUSE);
 	}
 
 	@Override
@@ -800,7 +800,7 @@ public class Start extends Activity implements OnGestureListener {
 			serverOut.println("gameover");
 		if (clientSide)
 			clientOut.println("gameover");
-			
+
 		if (serverSide) {
 			try {
 				// CLOSE THE SOCKET UPON EXITING
@@ -809,7 +809,7 @@ public class Start extends Activity implements OnGestureListener {
 				e.printStackTrace();
 			}
 		}
-		
+
 		System.exit(0);
 	}
 
@@ -859,8 +859,4 @@ public class Start extends Activity implements OnGestureListener {
 
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 4b16c8423fb0c89e7a18f916f0d60db3ba978cb0

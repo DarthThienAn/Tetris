@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 <"Multiplayer Tetris" is an application that two phones to play Tetris together>
     Copyright (C) 2012 Mark Ha
+=======
+"Multiplayer Tetris" is an application that two phones to play Tetris together
+Copyright (C) 2012 Mark Ha
+>>>>>>> 313pm
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,6 +17,10 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
+<<<<<<< HEAD
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+=======
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>>>>>>> 313pm
