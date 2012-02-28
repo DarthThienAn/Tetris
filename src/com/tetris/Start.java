@@ -172,7 +172,7 @@ public class Start extends Activity implements OnGestureListener {
 		if (distanceY < (-1*sensitivity)) {
 			 if (serverSide)
 				 serverOut.println("2");
-			 if (clientSide)
+			 else
 				 clientOut.println("2");
 
 			mTetrisView.pressKey(2);
@@ -182,7 +182,7 @@ public class Start extends Activity implements OnGestureListener {
 		if (distanceX > sensitivity) {
 			 if (serverSide)
 				 serverOut.println("3");
-			 if (clientSide)
+			 else
 				 clientOut.println("3");
 
 			mTetrisView.pressKey(3);
@@ -192,7 +192,7 @@ public class Start extends Activity implements OnGestureListener {
 		if (distanceX < (-1*sensitivity)) {
 			 if (serverSide)
 				 serverOut.println("4");
-			 if (clientSide)
+			 else
 				 clientOut.println("4");
 
 			mTetrisView.pressKey(4);
@@ -206,7 +206,7 @@ public class Start extends Activity implements OnGestureListener {
 	public void onLongPress(MotionEvent e) {
 		 if (serverSide)
 			 serverOut.println("5");
-		 if (clientSide)
+		 else
 			 clientOut.println("5");
 
 		if (mTetrisView != null)
@@ -240,18 +240,17 @@ public class Start extends Activity implements OnGestureListener {
 			if (mTetrisView.getMode() == READY) {
 				if (serverSide)
 					serverOut.println("1");
-				if (clientSide)
+				else
 					clientOut.println("1");
 
 				mTetrisView.pressKey(1);
-				if (!soloMode)
-					mTetrisView2.pressKey(1);
+				mTetrisView2.pressKey(1);
 				return (true);
 			}
 
 			if (serverSide)
 				serverOut.println("1");
-			if (clientSide)
+			else
 				clientOut.println("1");
 			
 			mTetrisView.pressKey(1);
@@ -335,7 +334,7 @@ public class Start extends Activity implements OnGestureListener {
 		}
 	};
 
-	// client
+	// server
 	private OnClickListener clientReadyClick = new OnClickListener() {
 
 		@Override
@@ -377,8 +376,40 @@ public class Start extends Activity implements OnGestureListener {
 		}
 	};
 	
+//	public String getCurrentIpAddress () {
+//	    try {
+//	            HttpClient httpclient = new DefaultHttpClient();
+//	            HttpGet httpget = new HttpGet("http://www.whatismyip.org");
+//	            HttpResponse response;
+//
+//	            response = httpclient.execute(httpget);
+//
+//	            HttpEntity entity = response.getEntity();
+//	            if (entity != null) 
+//	            {
+//	                    long len = entity.getContentLength();
+//	                    if (len != -1 && len < 1024) 
+//	                            return EntityUtils.toString(entity);
+//	                    else
+//	                            return "Response too long or error.";
+//	            } else {
+//	                    return ("Null:" + response.getStatusLine().toString());
+//	            }
+//
+//	    }
+//	    catch (Exception e)
+//	    {
+//	    	return "1";
+//	    }
+//	}
+	
 	// GETS THE IP ADDRESS OF YOUR PHONE'S NETWORK
 	private String getLocalIpAddress() {
+//		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE); WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+//
+//		int ipAddress = wifiInfo.getIpAddress();
+//
+//		return String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		try {
 			for (Enumeration<NetworkInterface> en = NetworkInterface
 					.getNetworkInterfaces(); en.hasMoreElements();) {
